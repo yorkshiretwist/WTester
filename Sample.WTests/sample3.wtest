@@ -1,0 +1,10 @@
+$.load("http://en.wikipedia.org/wiki/Short")
+$.screenshot("short-normal-text.jpg")
+$.pause(5);
+$.find('body').css("body { font-size: xx-large; }")
+$.screenshot("short-xx-large-text.jpg")
+$.pause(5);
+$.find('body').css("body { font-size: xx-small; }")
+$.screenshot("short-xx-small-text.jpg")
+$.pause(5);
+$.close()

@@ -1,0 +1,4 @@
+$.load("www.google.com")
+$.search("google")
+$.search("[0-9]", "regex")
+$.close()

@@ -1,0 +1,4 @@
+$.load("www.google.com")
+$.save("google.com.html")
+$.pause(5)
+$.close()

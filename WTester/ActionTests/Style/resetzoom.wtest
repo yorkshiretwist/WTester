@@ -1,0 +1,8 @@
+$.load("www.google.com")
+$.zoomin()
+$.pause(1)
+$.zoomin()
+$.pause(5)
+$.resetzoom()
+$.pause(5)
+$.close()

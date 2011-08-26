@@ -1,0 +1,5 @@
+$.load("www.google.com")
+$.find("input[type='text']")
+$.typetext("Test text")
+$.pause(10)
+$.close()

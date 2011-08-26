@@ -1,0 +1,5 @@
+$.load("www.google.com")
+$.find("a")
+$.highlight()
+$.pause(10)
+$.close()

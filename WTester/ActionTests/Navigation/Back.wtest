@@ -1,0 +1,7 @@
+$.load("www.google.com")
+$.pause(5)
+$.load("/reader")
+$.pause(5)
+$.back()
+$.pause(5)
+$.close()

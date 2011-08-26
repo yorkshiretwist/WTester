@@ -1,0 +1,3 @@
+$.load("www.google.com")
+$.eval("alert('Test of Javacript.Eval()');")
+$.close()

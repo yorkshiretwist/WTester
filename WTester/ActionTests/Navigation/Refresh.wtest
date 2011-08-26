@@ -1,0 +1,5 @@
+$.load("www.google.com")
+$.pause(5)
+$.refresh()
+$.pause(5)
+$.close()

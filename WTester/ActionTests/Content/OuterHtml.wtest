@@ -1,0 +1,4 @@
+$.load("www.google.com")
+$.find("a")
+$.outerhtml()
+$.close()

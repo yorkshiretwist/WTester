@@ -1,0 +1,4 @@
+$.load("www.google.com")
+$.css("body { color: #F00; }")
+$.pause(10)
+$.close()

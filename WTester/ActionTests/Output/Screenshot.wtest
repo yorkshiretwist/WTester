@@ -1,0 +1,4 @@
+$.load("www.google.com")
+$.screenshot("google.com.jpg")
+$.pause(5)
+$.close()

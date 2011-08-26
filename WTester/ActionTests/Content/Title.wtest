@@ -1,0 +1,3 @@
+$.load("www.google.com")
+$.title()
+$.close()

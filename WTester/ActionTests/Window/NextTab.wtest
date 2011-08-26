@@ -1,0 +1,8 @@
+$.load("www.google.com")
+$.pause(2)
+$.newtab("www.google.com/reader")
+$.pause(2)
+$.gototab(1)
+$.nexttab()
+$.pause(10)
+$.close()

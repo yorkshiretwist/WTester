@@ -1,0 +1,5 @@
+$.load("www.google.com")
+$.find("a")[2]
+$.click()
+$.pause(10)
+$.close()

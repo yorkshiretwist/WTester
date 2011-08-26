@@ -1,0 +1,4 @@
+$.load("www.google.com")
+$.wait()
+$.pause(10)
+$.close()

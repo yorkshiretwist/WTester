@@ -1,0 +1,5 @@
+$.load("www.google.com")
+$.pause(5)
+$.newtab("www.google.com/reader")
+$.pause(10)
+$.close()
