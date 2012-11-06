@@ -2,7 +2,6 @@ D:\projects\WTester\WTester\bin\Debug\WTester.dll
 D:\projects\WTester\WTester\bin\Debug\WTester.pdb
 D:\projects\WTester\WTester\bin\Debug\WatiN.Core.dll
 D:\projects\WTester\WTester\bin\Debug\Interop.SHDocVw.dll
-D:\projects\WTester\WTester\bin\Debug\Microsoft.mshtml.dll
 D:\projects\WTester\WTester\bin\Debug\WatiN.Core.xml
 D:\projects\WTester\WTester\obj\Debug\ResolveAssemblyReference.cache
 D:\projects\WTester\WTester\obj\Debug\WTester.dll
