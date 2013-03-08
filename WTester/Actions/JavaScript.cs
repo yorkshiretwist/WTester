@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OpenQA.Selenium;
 
 namespace stillbreathing.co.uk.WTester.Actions.JavaScript
 {
@@ -15,26 +13,27 @@ namespace stillbreathing.co.uk.WTester.Actions.JavaScript
         public Eval(string script)
         {
             if (!script.EndsWith(";")) script = script + ";";
-            this.Script = script;
+            Script = script;
         }
 
         public override void PreAction()
         {
-            this.PreActionMessage = "Executing JavaScript";
+            PreActionMessage = "Executing JavaScript";
         }
 
         public override void Execute()
         {
             try
             {
-                string result = this.Test.Browser.Eval(this.Script);
-                this.PostActionMessage = string.Format("Executed JavaScript. Result: {0}", result);
-                this.Success = true;
+                var js = Test.Browser as IJavaScriptExecutor;
+                var result = js.ExecuteScript(Script, null) as string;
+                PostActionMessage = string.Format("Executed JavaScript. Result: {0}", result);
+                Success = true;
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }

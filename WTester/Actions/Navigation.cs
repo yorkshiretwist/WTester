@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OpenQA.Selenium.Support.UI;
 using WatiN.Core;
 
 namespace stillbreathing.co.uk.WTester.Actions.Navigation
@@ -19,12 +17,12 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
         /// </summary>
         public Load(string uri)
         {
-            this.Uri = GetUri(uri);
+            Uri = GetUri(uri);
         }
         public Load(string uri, string browserType)
         {
-            this.Uri = GetUri(uri);
-            this.BrowserType = browserType;
+            Uri = GetUri(uri);
+            BrowserType = browserType;
         }
 
         private Uri GetUri(string uri)
@@ -32,7 +30,7 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
             // requests for /some/page.html
             if (uri.StartsWith("/"))
             {
-                uri = this.Test.CurrentUri.Host + uri;
+                uri = Test.CurrentUri.Host + uri;
             }
             // requests for www.google.com
             if (!uri.StartsWith("http"))
@@ -44,15 +42,8 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
 
         public override void PreAction()
         {
-            this.Test.CurrentUri = this.Uri;
-            if (this.BrowserType == "")
-            {
-                this.PreActionMessage = String.Format("Loading URI '{0}'", this.Uri.ToString());
-            }
-            else
-            {
-                this.PreActionMessage = String.Format("Loading URI '{0}' in browser '{1}'", this.Uri.ToString(), this.BrowserType);
-            }
+            Test.CurrentUri = Uri;
+            PreActionMessage = BrowserType == "" ? String.Format("Loading URI '{0}'", Uri) : String.Format("Loading URI '{0}' in browser '{1}'", Uri, BrowserType);
         }
 
         /// <summary>
@@ -60,18 +51,17 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
         /// </summary>
         public override void Execute()
         {
-            this.Test.CurrentUri = this.Uri;
+            Test.CurrentUri = Uri;
             try
             {
-                this.Test.Browser.GoTo(this.Test.CurrentUri);
-                this.Test.CurrentPage = this.Test.Browser.Page<WTestPage>();
-                this.Success = true;
-                this.PostActionMessage = String.Format("Loaded URI '{0}'", this.Test.CurrentUri.ToString());
+                Test.Browser.Navigate().GoToUrl(Test.CurrentUri);
+                Success = true;
+                PostActionMessage = String.Format("Loaded URI '{0}'", Test.CurrentUri);
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -81,11 +71,9 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
     /// </summary>
     public class Close : BaseAction
     {
-        public Close() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Closing the browser";
+            PreActionMessage = "Closing the browser";
         }
 
         /// <summary>
@@ -95,47 +83,16 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
         {
             try
             {
-                this.Test.Browser.Close();
-                this.Test.Browser.Dispose();
-                this.Test.Browser = null;
-                this.Success = true;
-                this.PostActionMessage = "Closed the browser";
+                Test.Browser.Close();
+                Test.Browser.Dispose();
+                Test.Browser = null;
+                Success = true;
+                PostActionMessage = "Closed the browser";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Waits until the page has completely loaded
-    /// </summary>
-    public class Wait : BaseAction
-    {
-        public Wait() { }
-
-        public override void PreAction()
-        {
-            this.PreActionMessage = "Waiting until the page has completely loaded";
-        }
-
-        /// <summary>
-        /// Executes the action
-        /// </summary>
-        public override void Execute()
-        {
-            try
-            {
-                this.Test.Browser.WaitForComplete();
-                this.Success = true;
-                this.PostActionMessage = "The page has completely loaded";
-            }
-            catch (Exception ex)
-            {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -145,14 +102,9 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
     /// </summary>
     public class Refresh : BaseAction
     {
-        /// <summary>
-        /// Refreshes the current page
-        /// </summary>
-        public Refresh() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Refreshing the page";
+            PreActionMessage = "Refreshing the page";
         }
 
         /// <summary>
@@ -162,14 +114,14 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
         {
             try
             {
-                this.Success = true;
-                this.Test.Browser.Refresh();
-                this.PostActionMessage = "Page refreshed";
+                Success = true;
+                Test.Browser.Navigate().Refresh();
+                PostActionMessage = "Page refreshed";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -179,14 +131,9 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
     /// </summary>
     public class Back : BaseAction
     {
-        /// <summary>
-        /// Goes the the previous page
-        /// </summary>
-        public Back() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Going to the previous page";
+            PreActionMessage = "Going to the previous page";
         }
 
         /// <summary>
@@ -196,13 +143,13 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
         {
             try
             {
-                this.Test.Browser.Back();
-                this.PostActionMessage = "Gone to the previous page";
+                Test.Browser.Navigate().Back();
+                PostActionMessage = "Gone to the previous page";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -212,14 +159,9 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
     /// </summary>
     public class Forward : BaseAction
     {
-        /// <summary>
-        /// Goes the the next page
-        /// </summary>
-        public Forward() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Going forward to the next page";
+            PreActionMessage = "Going forward to the next page";
         }
 
         /// <summary>
@@ -229,14 +171,14 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
         {
             try
             {
-                this.Test.Browser.Forward();
-                this.Success = true;
-                this.PostActionMessage = "Gone forward to the next page";
+                Test.Browser.Navigate().Forward();
+                Success = true;
+                PostActionMessage = "Gone forward to the next page";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }

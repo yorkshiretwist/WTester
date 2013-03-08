@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using WatiN.Core;
+using OpenQA.Selenium;
 
 namespace stillbreathing.co.uk.WTester.Actions.Elements
 {
@@ -19,12 +17,12 @@ namespace stillbreathing.co.uk.WTester.Actions.Elements
         /// <returns></returns>
         public Find(string selector)
         {
-            this.Selector = selector;
+            Selector = selector;
         }
 
         public override void PreAction()
         {
-            this.PreActionMessage = String.Format("Finding the element(s) matching this selector: {0}[{1}]", this.Selector, this.Test.CurrentElementIndex);
+            PreActionMessage = String.Format("Finding the element(s) matching this selector: {0}[{1}]", Selector, Test.CurrentElementIndex);
         }
 
         /// <summary>
@@ -34,22 +32,22 @@ namespace stillbreathing.co.uk.WTester.Actions.Elements
         {
             try
             {
-                this.Test.CurrentElements = this.Test.Browser.Elements.Filter(WatiN.Core.Find.BySelector(this.Selector));
-                if (this.Test.CurrentElements.Count > 0)
+                Test.CurrentElements = Test.Browser.FindElements(By.CssSelector(Selector));
+                if (Test.CurrentElements.Any())
                 {
-                    this.Success = true;
-                    this.PostActionMessage = String.Format("Found {0} elements", this.Test.CurrentElements.Count);
+                    Success = true;
+                    PostActionMessage = String.Format("Found {0} elements for selector '{1}'", Test.CurrentElements.Count(), Selector);
                 }
                 else
                 {
-                    this.Success = false;
-                    this.PostActionMessage = "Found no elements";
+                    Success = false;
+                    PostActionMessage = String.Format("Found no elements for selector '{0}'", Selector);
                 }
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }

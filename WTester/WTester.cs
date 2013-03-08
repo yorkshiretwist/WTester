@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using WatiN.Core;
+using System.Threading;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Safari;
 using System.IO;
-using System.Windows.Forms;
 using stillbreathing.co.uk.WTester.Actions;
 
 namespace stillbreathing.co.uk.WTester
@@ -24,7 +28,7 @@ namespace stillbreathing.co.uk.WTester
         /// <summary>
         /// The currently selected elements
         /// </summary>
-        public ElementCollection CurrentElements;
+        public IEnumerable<IWebElement> CurrentElements;
 
         /// <summary>
         /// The index of the currently selected element
@@ -42,18 +46,28 @@ namespace stillbreathing.co.uk.WTester
         public Uri CurrentUri;
 
         /// <summary>
-        /// The currently active WatiN browser instance
+        /// The currently active browser instance
         /// </summary>
-        public Browser Browser;
+        public IWebDriver Browser;
 
         /// <summary>
-        /// Gets the type of the current WatiN browser instance
+        /// Gets the type of the current browser instance
         /// </summary>
         public BrowserType BrowserType;
 
+        /// <summary>
+        /// Stores the success or failure of the last action
+        /// </summary>
+        public bool Success { get; set; }
+
+        /// <summary>
+        /// Stores the message from the last action
+        /// </summary>
+        public string Message { get; set; }
+
         #endregion
 
-        #region Private properties
+        #region Fields
 
         /// <summary>
         /// The list of possible action types that can be called
@@ -66,14 +80,19 @@ namespace stillbreathing.co.uk.WTester
         private List<string> Lines = new List<string>();
 
         /// <summary>
-        /// Stores the success or failure of the last action
+        /// The parser for this test
         /// </summary>
-        public bool Success { get; set; }
+        private Parser Parser { get; set; }
 
         /// <summary>
-        /// Stores the message from the last action
+        /// The total number of items to run
         /// </summary>
-        public string Message { get; set; }
+        private int _totalItemsToRun;
+
+        /// <summary>
+        /// The current item
+        /// </summary>
+        private int _currentItem;
 
         #endregion
 
@@ -123,9 +142,29 @@ namespace stillbreathing.co.uk.WTester
         /// </summary>
         private void Initialise()
         {
-            this.BrowserType = BrowserType.IE;
-            this.CurrentUri = new Uri("http://www.google.com");
+            CurrentUri = new Uri("http://www.google.com");
             RegisterStandardActions();
+        }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// The event that is fired as the test progresses
+        /// </summary>
+        public event ProgressChangedEventHandler TestProgress;
+
+        SendOrPostCallback _progressReporter;
+
+        private void ProgressReporter(object arg)
+        {
+            OnProgressChanged((ProgressChangedEventArgs)arg);
+        }
+
+        protected virtual void OnProgressChanged(ProgressChangedEventArgs e)
+        {
+            if (TestProgress != null) TestProgress(this, e);
         }
 
         #endregion
@@ -162,7 +201,6 @@ namespace stillbreathing.co.uk.WTester
             RegisterAction("load", "stillbreathing.co.uk.WTester.Actions.Navigation.Load");
             RegisterAction("open", "stillbreathing.co.uk.WTester.Actions.Navigation.Load");
             RegisterAction("close", "stillbreathing.co.uk.WTester.Actions.Navigation.Close");
-            RegisterAction("wait", "stillbreathing.co.uk.WTester.Actions.Navigation.Wait");
             RegisterAction("refresh", "stillbreathing.co.uk.WTester.Actions.Navigation.Refresh");
             RegisterAction("back", "stillbreathing.co.uk.WTester.Actions.Navigation.Back");
             RegisterAction("forward", "stillbreathing.co.uk.WTester.Actions.Navigation.Forward");
@@ -179,6 +217,7 @@ namespace stillbreathing.co.uk.WTester
 
             // window
             RegisterAction("resize", "stillbreathing.co.uk.WTester.Actions.Window.Resize");
+            RegisterAction("rotate", "stillbreathing.co.uk.WTester.Actions.Window.Rotate");
             RegisterAction("maximise", "stillbreathing.co.uk.WTester.Actions.Window.Maximise");
             RegisterAction("minimise", "stillbreathing.co.uk.WTester.Actions.Window.Minimise");
             RegisterAction("reset", "stillbreathing.co.uk.WTester.Actions.Window.Reset");
@@ -187,6 +226,7 @@ namespace stillbreathing.co.uk.WTester
             RegisterAction("closetab", "stillbreathing.co.uk.WTester.Actions.Window.CloseTab");
             RegisterAction("nexttab", "stillbreathing.co.uk.WTester.Actions.Window.NextTab");
             RegisterAction("previoustab", "stillbreathing.co.uk.WTester.Actions.Window.PreviousTab");
+            RegisterAction("keypress", "stillbreathing.co.uk.WTester.Actions.Window.KeyPress");
         }
 
         /// <summary>
@@ -213,46 +253,163 @@ namespace stillbreathing.co.uk.WTester
         public void RunTest(Delegate preActionDelegate, Delegate actionResultDelegate)
         {
             // create the new parser
-            Parser parser = new Parser();
+            Parser = new Parser();
+
+            // create the new reporter
+            _progressReporter = new SendOrPostCallback(ProgressReporter);
+
+            // create the list of browsers
+            var browsers = new List<BrowserType>();
+
+            // get the very first action, it may set the browser
+            if (Lines.Any() && Lines.First().StartsWith("$.browser"))
+            {
+                // get the browser parameters
+                List<object> parameters = Parser.GetParameters(Lines.First());
+
+                // just one parameter? set the browser
+                if (parameters.Count == 1)
+                {
+                    if (parameters[0].ToString().ToLower() == "firefox")
+                    {
+                        BrowserType = BrowserType.Firefox;
+                    }
+                    if (parameters[0].ToString().ToLower() == "chrome")
+                    {
+                        BrowserType = BrowserType.Chrome;
+                    }
+                    if (parameters[0].ToString().ToLower() == "safari")
+                    {
+                        BrowserType = BrowserType.Safari;
+                    }
+                    if (parameters[0].ToString().ToLower() == "ie")
+                    {
+                        BrowserType = BrowserType.IE;
+                    }
+                    
+                    browsers.Add(BrowserType);
+                }
+
+                // more than one parameter? we are looping each browser type
+                if (parameters.Count > 1)
+                {
+                    foreach (object o in parameters)
+                    {
+                        if (o.ToString().ToLower() == "firefox")
+                        {
+                            BrowserType = BrowserType.Firefox;
+                        }
+                        if (o.ToString().ToLower() == "chrome")
+                        {
+                            BrowserType = BrowserType.Chrome;
+                        }
+                        if (o.ToString().ToLower() == "safari")
+                        {
+                            BrowserType = BrowserType.Safari;
+                        }
+                        if (o.ToString().ToLower() == "ie")
+                        {
+                            BrowserType = BrowserType.IE;
+                        }
+
+                        browsers.Add(BrowserType);
+                    }
+                }
+
+                // remove the first line as we've just run it
+                Lines.RemoveAt(0);
+            }
+
+            // work out the total number of items to run
+            _totalItemsToRun = browsers.Count * Lines.Count;
+
+            // for each browser run the script
+            foreach (BrowserType browserType in browsers)
+            {
+                // close the old browser if it is still open
+                if (Browser != null)
+                {
+                    Browser.Close();
+                    Browser = null;
+                }
+
+                // load the browser
+                LoadBrowser(browserType);
+
+                // report the loading of this browser
+                var resultParameters = new List<object>
+                    {
+                        "browser",
+                        new List<object> {browserType.ToString()},
+                        true,
+                        "Loaded browser"
+                    };
+                actionResultDelegate.DynamicInvoke(resultParameters.ToArray());
+
+                // process each line of the script
+                ProcessLines(preActionDelegate, actionResultDelegate);
+            }
+
+            // report the test as completed
+            _progressReporter(new ProgressChangedEventArgs(100, null));
+        }
+
+        /// <summary>
+        /// Load the browser of the given type
+        /// </summary>
+        /// <param name="browserType"></param>
+        void LoadBrowser(BrowserType browserType)
+        {
+            switch (browserType)
+            {
+                case BrowserType.Chrome:
+                    Browser = new ChromeDriver();
+                    break;
+                case BrowserType.Firefox:
+                    Browser = new FirefoxDriver();
+                    break;
+                case BrowserType.Safari:
+                    Browser = new SafariDriver();
+                    break;
+                default:
+                    Browser = new InternetExplorerDriver();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Process the lines of the script
+        /// </summary>
+        /// <param name="preActionDelegate"></param>
+        /// <param name="actionResultDelegate"></param>
+        void ProcessLines(Delegate preActionDelegate, Delegate actionResultDelegate)
+        {
             foreach (string line in Lines)
             {
                 // every line must start with '$.'
                 if (line.StartsWith("$."))
                 {
                     // get the actions, one on each line, perhap chained
-                    List<string> actions = parser.Split(line.Substring(2), ".", "\"", true);
+                    List<string> actions = Parser.Split(line.Substring(2), ".", "\"", true);
+
                     foreach (string action in actions)
                     {
                         // get the function name for this action
                         string thisAction = action.Trim();
-                        string functionName = parser.GetFunctionName(thisAction);
+                        string functionName = Parser.GetFunctionName(thisAction);
 
                         // check the function name has been registered
                         if (functionName != null && ActionTypes.ContainsKey(functionName))
                         {
                             // get the parameters and index
-                            List<object> parameters = parser.GetParameters(thisAction);
-                            int? index = parser.GetIndex(thisAction);
-                            if (index != null) this.CurrentElementIndex = index.Value;
-                            
-                            // make sure the first command is to load a URI
-                            if (this.Browser == null && (functionName == "load" || functionName == "open"))
-                            {
-                                if (parameters.Count > 1)
-                                {
-                                    if (parameters[1].ToString().ToLower() == "firefox")
-                                    {
-                                        this.BrowserType = BrowserType.Firefox;
-                                    }
-                                }
-                                if (this.BrowserType == BrowserType.IE) this.Browser = new IE();
-                                if (this.BrowserType == BrowserType.Firefox) this.Browser = new FireFox();
-                            }
+                            List<object> parameters = Parser.GetParameters(thisAction);
+                            int? index = Parser.GetIndex(thisAction);
+                            if (index != null) CurrentElementIndex = index.Value;
 
-                            if (this.Browser != null)
+                            if (Browser != null)
                             {
                                 // create the IAction object
-                                ActionInvoker invoker = new ActionInvoker();
+                                var invoker = new ActionInvoker();
                                 IAction actionObject = invoker.Invoke(this, ActionTypes[functionName], parameters);
 
                                 // execute the PreAction() method of the IAction
@@ -262,10 +419,12 @@ namespace stillbreathing.co.uk.WTester
                                 if (preActionDelegate != null)
                                 {
                                     // create the pre-action parameters array
-                                    List<object> preActionParameters = new List<object>();
-                                    preActionParameters.Add(functionName);
-                                    preActionParameters.Add(parameters);
-                                    preActionParameters.Add(actionObject.PreActionMessage);
+                                    var preActionParameters = new List<object>
+                                        {
+                                            functionName,
+                                            parameters,
+                                            actionObject.PreActionMessage
+                                        };
 
                                     // invoke the pre-action delegate
                                     preActionDelegate.DynamicInvoke(preActionParameters.ToArray());
@@ -274,10 +433,8 @@ namespace stillbreathing.co.uk.WTester
                                 // execute the Execute() method of the IAction
                                 actionObject = invoker.Execute(this, actionObject);
 
-                                // create the results paramters array
-                                List<object> resultParameters = new List<object>();
-                                resultParameters.Add(functionName);
-                                resultParameters.Add(parameters);
+                                // create the results parameters array
+                                var resultParameters = new List<object> { functionName, parameters };
                                 if (actionObject != null)
                                 {
                                     resultParameters.Add(actionObject.Success);
@@ -285,8 +442,8 @@ namespace stillbreathing.co.uk.WTester
                                 }
                                 else
                                 {
-                                    resultParameters.Add(this.Success);
-                                    resultParameters.Add(this.Message);
+                                    resultParameters.Add(Success);
+                                    resultParameters.Add(Message);
                                 }
 
                                 // invoke the action result delegate
@@ -296,11 +453,13 @@ namespace stillbreathing.co.uk.WTester
                         else
                         {
                             // create the error results parameters array
-                            List<object> resultParameters = new List<object>();
-                            resultParameters.Add(functionName);
-                            resultParameters.Add(new List<object>());
-                            resultParameters.Add(false);
-                            resultParameters.Add(string.Format("The function '{0}' was not recognised", functionName));
+                            var resultParameters = new List<object>
+                                {
+                                    functionName,
+                                    new List<object>(),
+                                    false,
+                                    string.Format("The function '{0}' was not recognised", functionName)
+                                };
 
                             // invoke the action result delegate
                             actionResultDelegate.DynamicInvoke(resultParameters.ToArray());
@@ -310,15 +469,22 @@ namespace stillbreathing.co.uk.WTester
                 else
                 {
                     // create the error results parameters array
-                    List<object> resultParameters = new List<object>();
-                    resultParameters.Add("");
-                    resultParameters.Add(new List<object>());
-                    resultParameters.Add(false);
-                    resultParameters.Add("The line does not begin with '$.'");
+                    var resultParameters = new List<object>
+                        {
+                            "",
+                            new List<object>(),
+                            false,
+                            "The line does not begin with '$.'"
+                        };
 
                     // invoke the action result delegate
                     actionResultDelegate.DynamicInvoke(resultParameters.ToArray());
                 }
+
+                // report the test progress
+                _currentItem++;
+                int progress = (200 * _currentItem + 1) / (_totalItemsToRun * 2);
+                _progressReporter(new ProgressChangedEventArgs(progress, null));
             }
         }
 

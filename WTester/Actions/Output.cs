@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
+using OpenQA.Selenium;
+using System.Drawing.Imaging;
 
 namespace stillbreathing.co.uk.WTester.Actions.Output
 {
@@ -15,12 +14,12 @@ namespace stillbreathing.co.uk.WTester.Actions.Output
 
         public Save(string fileName)
         {
-            this.FileName = fileName;
+            FileName = fileName;
         }
 
         public override void PreAction()
         {
-            this.PreActionMessage = String.Format("Saving HTML to {0}", this.FileName);
+            PreActionMessage = String.Format("Saving HTML to {0}", FileName);
         }
 
         /// <summary>
@@ -30,14 +29,14 @@ namespace stillbreathing.co.uk.WTester.Actions.Output
         {
             try
             {
-                this.Success = true;
-                File.WriteAllText(this.FileName, this.Test.Browser.Html);
-                this.PostActionMessage = String.Format("Saved HTML to {0}", this.FileName);
+                Success = true;
+                File.WriteAllText(FileName, Test.Browser.PageSource);
+                PostActionMessage = String.Format("Saved HTML to {0}", FileName);
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -51,12 +50,12 @@ namespace stillbreathing.co.uk.WTester.Actions.Output
 
         public Screenshot(string fileName)
         {
-            this.FileName = fileName;
+            FileName = fileName;
         }
 
         public override void PreAction()
         {
-            this.PreActionMessage = String.Format("Saving screenshot to {0}", this.FileName);
+            PreActionMessage = String.Format("Saving screenshot to {0}", FileName);
         }
 
         /// <summary>
@@ -66,15 +65,50 @@ namespace stillbreathing.co.uk.WTester.Actions.Output
         {
             try
             {
-                this.Success = true;
-                this.Test.Browser.CaptureWebPageToFile(this.FileName);
-                this.PostActionMessage = String.Format("Saved screenshot to {0}", this.FileName);
+                Success = true;
+                var shot = Test.Browser as ITakesScreenshot;
+                var ss = shot.GetScreenshot();
+                ImageFormat format = ImageFormat.Jpeg;
+                string ext = Path.GetExtension(FileName);
+                switch (ext.ToLower())
+                {
+                    case ".png":
+                        format = ImageFormat.Png;
+                        break;
+                    case ".bmp":
+                        format = ImageFormat.Bmp;
+                        break;
+                }
+                string fileName = FileName;
+                fileName = new FilenameFormatter(Test).Format(fileName);
+                ss.SaveAsFile(fileName, format);
+                PostActionMessage = String.Format("Saved screenshot to {0}", FileName);
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
+        }
+    }
+
+    public class FilenameFormatter
+    {
+        private WTest _test;
+
+        public FilenameFormatter(WTest test)
+        {
+            _test = test;
+        }
+
+        public string Format(string fileName)
+        {
+            fileName = fileName.Replace("[width]", _test.Browser.Manage().Window.Size.Width.ToString());
+            fileName = fileName.Replace("[height]", _test.Browser.Manage().Window.Size.Height.ToString());
+            var cap = _test.Browser as IHasCapabilities;
+            fileName = fileName.Replace("[browser]", cap.Capabilities.BrowserName);
+            fileName = fileName.Replace("[version]", cap.Capabilities.Version);
+            return fileName;
         }
     }
 }

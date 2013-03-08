@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using WatiN.Core;
 
 namespace stillbreathing.co.uk.WTester.Actions.Forms
 {
@@ -11,14 +8,9 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
     /// </summary>
     public class Click : BaseAction
     {
-        /// <summary>
-        /// Activates a click
-        /// </summary>
-        public Click() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = String.Format("Clicking the current element: <{0}>[{1}]", this.Test.CurrentElements[this.Test.CurrentElementIndex].TagName, this.Test.CurrentElementIndex);
+            PreActionMessage = String.Format("Clicking the current element: <{0}>[{1}]", Test.CurrentElements.ElementAt(Test.CurrentElementIndex).TagName, Test.CurrentElementIndex);
         }
 
         /// <summary>
@@ -28,22 +20,22 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
         {
             try
             {
-                if (this.Test.CurrentElements != null && this.Test.CurrentElements.Count > 0)
+                if (Test.CurrentElements != null && Test.CurrentElements.Any())
                 {
-                    this.Success = true;
-                    this.Test.CurrentElements[this.Test.CurrentElementIndex].Click();
-                    this.PostActionMessage = String.Format("Clicked the current element: <{0}>[{1}]", this.Test.CurrentElements[this.Test.CurrentElementIndex].TagName, this.Test.CurrentElementIndex);
+                    Success = true;
+                    Test.CurrentElements.ElementAt(Test.CurrentElementIndex).Click();
+                    PostActionMessage = String.Format("Clicked the current element: <{0}>[{1}]", Test.CurrentElements.ElementAt(Test.CurrentElementIndex).TagName, Test.CurrentElementIndex);
                 }
                 else
                 {
-                    this.PostActionMessage = "There is no current element";
-                    this.Success = false;
+                    PostActionMessage = "There is no current element";
+                    Success = false;
                 }
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -60,12 +52,12 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
         /// </summary>
         public TypeText(string text)
         {
-            this.Text = text;
+            Text = text;
         }
 
         public override void PreAction()
         {
-            this.PreActionMessage = String.Format("Typing '{0}' into element <{1}>[{2}]", this.Text, this.Test.CurrentElements[this.Test.CurrentElementIndex].TagName, this.Test.CurrentElementIndex);
+            PreActionMessage = String.Format("Typing '{0}' into element <{1}>[{2}]", Text, Test.CurrentElements.ElementAt(Test.CurrentElementIndex).TagName, Test.CurrentElementIndex);
         }
 
         /// <summary>
@@ -75,22 +67,22 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
         {
             try
             {
-                if (this.Test.CurrentElements != null && this.Test.CurrentElements.Count > 0 && this.Test.CurrentElements[this.Test.CurrentElementIndex] is TextField)
+                if (Test.CurrentElements != null && Test.CurrentElements.Any())
                 {
-                    this.Success = true;
-                    ((TextField)this.Test.CurrentElements[this.Test.CurrentElementIndex]).TypeText(this.Text);
-                    this.PostActionMessage = String.Format("Typing '{0}' into element <{1}>[{2}]", this.Text, this.Test.CurrentElements[this.Test.CurrentElementIndex].TagName, this.Test.CurrentElementIndex);
+                    Success = true;
+                    Test.CurrentElements.ElementAt(Test.CurrentElementIndex).SendKeys(Text);
+                    PostActionMessage = String.Format("Typing '{0}' into element <{1}>[{2}]", Text, Test.CurrentElements.ElementAt(Test.CurrentElementIndex).TagName, Test.CurrentElementIndex);
                 }
                 else
                 {
-                    this.PostActionMessage = "The current element is not set, or is not a valid text input element";
-                    this.Success = false;
+                    PostActionMessage = "The current element is not set, or is not a valid text input element";
+                    Success = false;
                 }
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }

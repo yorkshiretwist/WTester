@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Drawing;
 using System.Windows.Forms;
-using WatiN.Core;
+using OpenQA.Selenium;
+using ScreenOrientation = OpenQA.Selenium.ScreenOrientation;
 
 namespace stillbreathing.co.uk.WTester.Actions.Window
 {
@@ -19,111 +18,120 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
         /// <param name="height">The new window height</param>
         public Resize(int width, int height)
         {
-            this.Width = width;
-            this.Height = height;
+            Width = width;
+            Height = height;
         }
 
         public override void PreAction()
         {
-            this.PreActionMessage = String.Format("Resizing window to {0}x{1}", this.Width, this.Height);
+            PreActionMessage = String.Format("Resizing window to {0}x{1}", Width, Height);
         }
 
         public override void Execute()
         {
             try
             {
-                this.Test.Browser.SizeWindow(this.Width, this.Height);
-                this.Success = true;
-                this.PostActionMessage = String.Format("Resized window to {0}x{1}", this.Width, this.Height);
+                Test.Browser.Manage().Window.Size = new Size(Width, Height);
+                Success = true;
+                PostActionMessage = String.Format("Resized window to {0}x{1}", Width, Height);
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
+            }
+        }
+    }
+
+    public class Rotate : BaseAction
+    {
+        public override void PreAction()
+        {
+            PreActionMessage = "Rotating the window";
+        }
+
+        public override void Execute()
+        {
+            try
+            {
+                var rot = Test.Browser as IRotatable;
+                rot.Orientation = rot.Orientation == ScreenOrientation.Portrait
+                                      ? ScreenOrientation.Landscape
+                                      : ScreenOrientation.Portrait;
+                Success = true;
+                PostActionMessage = "Rotated the window";
+            }
+            catch (Exception ex)
+            {
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
 
     public class Maximise : BaseAction
     {
-        /// <summary>
-        /// Maximises the window
-        /// </summary>
-        public Maximise() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Maximising the window";
+            PreActionMessage = "Maximising the window";
         }
 
         public override void Execute()
         {
             try
             {
-                this.Test.Browser.ShowWindow(WatiN.Core.Native.Windows.NativeMethods.WindowShowStyle.ShowMaximized);
-                this.Success = true;
-                this.PostActionMessage = "Maximized the window";
+                Test.Browser.Manage().Window.Maximize();
+                Success = true;
+                PostActionMessage = "Maximized the window";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
 
     public class Minimise : BaseAction
     {
-        /// <summary>
-        /// Minimises the window
-        /// </summary>
-        public Minimise() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Minimising the window";
+            PreActionMessage = "Minimising the window";
         }
         
         public override void Execute()
         {
             try
             {
-                this.Test.Browser.ShowWindow(WatiN.Core.Native.Windows.NativeMethods.WindowShowStyle.ShowMinimized);
-                this.Success = true;
-                this.PostActionMessage = "Minimized the window";
+                Success = false;
+                PostActionMessage = "Sorry, not currently supported";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
 
     public class Reset : BaseAction
     {
-        /// <summary>
-        /// Resets the window size back to the original size
-        /// </summary>
-        public Reset() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Resetting the window size";
+            PreActionMessage = "Resetting the window size";
         }
 
         public override void Execute()
         {
             try
             {
-                this.Test.Browser.ShowWindow(WatiN.Core.Native.Windows.NativeMethods.WindowShowStyle.ShowNormal);
-                this.Success = true;
-                this.PostActionMessage = "Reset the window size";
+                Success = false;
+                PostActionMessage = "Sorry, not currently supported";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -137,33 +145,33 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
         /// </summary>
         public NewTab(string url)
         {
-            this.URL = url;
+            URL = url;
         }
 
         public override void PreAction()
         {
-            this.PreActionMessage = String.Format("Opening a new tab for {0}", this.URL);
+            PreActionMessage = String.Format("Opening a new tab for {0}", URL);
         }
 
         public override void Execute()
         {
             try
             {
-                this.Success = true;
+                Success = true;
                 // open a new tab
                 SendKeys.SendWait("^{t}");
                 // select the address bar text
                 SendKeys.SendWait("%{d}");
                 // enter the new URL
-                SendKeys.SendWait(String.Format("{{0}}", this.URL));
+                SendKeys.SendWait(String.Format("{{0}}", URL));
                 // press enter
                 SendKeys.SendWait("{ENTER}");
-                this.PostActionMessage = String.Format("Opened a new tab for {0}", this.URL);
+                PostActionMessage = String.Format("Opened a new tab for {0}", URL);
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -177,109 +185,127 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
         /// </summary>
         public GoToTab(int tabNumber)
         {
-            this.TabNumber = tabNumber;
+            TabNumber = tabNumber;
         }
 
         public override void PreAction()
         {
-            this.PreActionMessage = "Going to the tab number " + this.TabNumber;
+            PreActionMessage = "Going to the tab number " + TabNumber;
         }
 
         public override void Execute()
         {
             try
             {
-                SendKeys.SendWait(String.Format("^{{0}}", this.TabNumber));
-                this.PostActionMessage = "Gone to tab number " + this.TabNumber;
+                SendKeys.SendWait(String.Format("^{{0}}", TabNumber));
+                PostActionMessage = "Gone to tab number " + TabNumber;
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
 
     public class CloseTab : BaseAction
     {
-        /// <summary>
-        /// Closes the current tab
-        /// </summary>
-        public CloseTab() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Closing the current tab";
+            PreActionMessage = "Closing the current tab";
         }
 
         public override void Execute()
         {
             try
             {
-                this.Success = true;
+                Success = true;
                 SendKeys.SendWait("^{w}");
-                this.PostActionMessage = "Closed the current tab";
+                PostActionMessage = "Closed the current tab";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
 
     public class NextTab : BaseAction
     {
-        /// <summary>
-        /// Go to the next tab
-        /// </summary>
-        public NextTab() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Going to the next tab";
+            PreActionMessage = "Going to the next tab";
         }
 
         public override void Execute()
         {
             try
             {
-                this.Success = true;
+                Success = true;
                 SendKeys.SendWait("^{TAB}");
-                this.PostActionMessage = "Gone to the next tab";
+                PostActionMessage = "Gone to the next tab";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
 
     public class PreviousTab : BaseAction
     {
-        /// <summary>
-        /// Go to the previous tab
-        /// </summary>
-        public PreviousTab() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Going to the previous tab";
+            PreActionMessage = "Going to the previous tab";
         }
         
         public override void Execute()
         {
             try
             {
-                this.Success = true;
+                Success = true;
                 SendKeys.SendWait("^+{TAB}");
-                this.PostActionMessage = "Gone to the previou tab";
+                PostActionMessage = "Gone to the previous tab";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
+            }
+        }
+    }
+
+    public class KeyPress : BaseAction
+    {
+        private string Keys;
+
+        /// <summary>
+        /// Presses the given keys
+        /// </summary>
+        public KeyPress(string keys)
+        {
+            Keys = keys;
+        }
+
+        public override void PreAction()
+        {
+            PreActionMessage = "Pressing keys";
+        }
+
+        public override void Execute()
+        {
+            try
+            {
+                Success = true;
+                SendKeys.SendWait(Keys);
+                PostActionMessage = String.Format("Sent keys '{0}'", Keys);
+            }
+            catch (Exception ex)
+            {
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }

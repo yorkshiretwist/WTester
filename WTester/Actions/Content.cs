@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using WatiN.Core;
+using OpenQA.Selenium;
 
 namespace stillbreathing.co.uk.WTester.Actions.Content
 {
@@ -21,24 +19,24 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
         /// <returns></returns>
         public Search(string query)
         {
-            this.Query = query;
-            this.SearchType = "standard";
+            Query = query;
+            SearchType = "standard";
         }
         public Search(string query, string searchType)
         {
-            this.Query = query;
-            this.SearchType = searchType;
+            Query = query;
+            SearchType = searchType;
         }
 
         public override void PreAction()
         {
-            if (this.SearchType == "regex")
+            if (SearchType == "regex")
             {
-                this.PreActionMessage = String.Format("Searching for '{0}' as a Regular Expression", this.Query);
+                PreActionMessage = String.Format("Searching for '{0}' as a Regular Expression", Query);
             }
             else
             {
-                this.PreActionMessage = String.Format("Searching for '{0}'", this.Query);
+                PreActionMessage = String.Format("Searching for '{0}'", Query);
             }
         }
 
@@ -49,23 +47,22 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
         {
             try
             {
-                if (this.SearchType == "" || this.SearchType.ToLower() == "standard")
+                if (SearchType == "" || SearchType.ToLower() == "standard")
                 {
-                    this.Success = this.Test.Browser.ContainsText(this.Query);
-                    this.PostActionMessage = String.Format("Searching for '{0}'", this.Query);
+                    Success = Test.Browser.PageSource.Contains(Query);
+                    PostActionMessage = String.Format("Searching for '{0}'", Query);
                 }
-                if (this.SearchType.ToLower() == "regex")
+                if (SearchType.ToLower() == "regex")
                 {
-                    Regex regex = new Regex(this.Query);
-                    this.Success = this.Test.Browser.ContainsText(regex);
-                    this.PostActionMessage = String.Format("Searched for '{0}' as a Regular Expression", this.Query);
+                    Success = Regex.IsMatch(Test.Browser.PageSource, Query);
+                    PostActionMessage = String.Format("Searched for '{0}' as a Regular Expression", Query);
                 }
-                this.Success = false;
+                Success = false;
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -75,11 +72,9 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
     /// </summary>
     public class Title : BaseAction
     {
-        public Title() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Getting the page title";
+            PreActionMessage = "Getting the page title";
         }
 
         /// <summary>
@@ -89,21 +84,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
         {
             try
             {
-                if (this.Test.CurrentPage == null)
+                IWebElement el = Test.Browser.FindElement(By.TagName("title"));
+                if (el == null)
                 {
-                    this.PostActionMessage = "There is no current page";
-                    this.Success = false;
+                    PostActionMessage = "There is no title element";
+                    Success = false;
                 }
                 else
                 {
-                    this.PostActionMessage = String.Format("Title for current page is: ", this.Test.Browser.Title);
-                    this.Success = true;
+
+                    PostActionMessage = String.Format("Title for current page is: ", el.Text);
+                    Success = true;
                 }
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -113,11 +110,9 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
     /// </summary>
     public class Highlight : BaseAction
     {
-        public Highlight() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Highlighting the current element(s)";
+            PreActionMessage = "Highlighting the current element(s)";
         }
 
         /// <summary>
@@ -127,27 +122,29 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
         {
             try
             {
-                if (this.Test.CurrentElements != null && this.Test.CurrentElements.Count > 0)
+                if (Test.CurrentElements != null && Test.CurrentElements.Any())
                 {
                     int x = 0;
-                    foreach (Element el in this.Test.CurrentElements)
+                    foreach (IWebElement el in Test.CurrentElements)
                     {
-                        el.Highlight(true);
+                        var js = Test.Browser as IJavaScriptExecutor;
+                        // TODO
+                        //js.ExecuteScript(".setAttribute('style', '{1}');", el., "color: yellow; border: 2px solid yellow;");
                         x++;
                     }
-                    this.PostActionMessage = String.Format("Elements highlighted: {0}", x);
-                    this.Success = true;
+                    PostActionMessage = String.Format("Elements highlighted: {0}", x);
+                    Success = true;
                 }
                 else
                 {
-                    this.PostActionMessage = "There are no elements currently selected";
-                    this.Success = false;
+                    PostActionMessage = "There are no elements currently selected";
+                    Success = false;
                 }
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -157,11 +154,9 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
     /// </summary>
     public class InnerHtml : BaseAction
     {
-        public InnerHtml() {  }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Getting the inner HTML of the current element";
+            PreActionMessage = "Getting the inner HTML of the current element";
         }
 
         /// <summary>
@@ -171,22 +166,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
         {
             try
             {
-                if (this.Test.CurrentElements != null && this.Test.CurrentElements.Count > 0)
+                if (Test.CurrentElements != null && Test.CurrentElements.Any())
                 {
-                    string html = this.Test.CurrentElements[0].InnerHtml;
-                    this.PostActionMessage = String.Format("Element inner HTML: {0}", html);
-                    this.Success = true;
+                    // TODO
+                    string html = Test.CurrentElements.First().Text;
+                    PostActionMessage = String.Format("Element inner HTML: {0}", html);
+                    Success = true;
                 }
                 else
                 {
-                    this.PostActionMessage = "There are no elements currently selected";
-                    this.Success = false;
+                    PostActionMessage = "There are no elements currently selected";
+                    Success = false;
                 }
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -196,11 +192,9 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
     /// </summary>
     public class OuterHtml : BaseAction
     {
-        public OuterHtml() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Getting the outer HTML of the current element";
+            PreActionMessage = "Getting the outer HTML of the current element";
         }
 
         /// <summary>
@@ -210,22 +204,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
         {
             try
             {
-                if (this.Test.CurrentElements != null && this.Test.CurrentElements.Count > 0)
+                if (Test.CurrentElements != null && Test.CurrentElements.Any())
                 {
-                    string html = this.Test.CurrentElements[0].OuterHtml;
-                    this.PostActionMessage = String.Format("Element outer HTML: {0}", html);
-                    this.Success = true;
+                    // TODO
+                    string html = Test.CurrentElements.First().Text;
+                    PostActionMessage = String.Format("Element outer HTML: {0}", html);
+                    Success = true;
                 }
                 else
                 {
-                    this.PostActionMessage = "There are no elements currently selected";
-                    this.Success = false;
+                    PostActionMessage = "There are no elements currently selected";
+                    Success = false;
                 }
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -235,11 +230,9 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
     /// </summary>
     public class Text : BaseAction
     {
-        public Text() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Getting the text of the current element";
+            PreActionMessage = "Getting the text of the current element";
         }
 
         /// <summary>
@@ -249,22 +242,22 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
         {
             try
             {
-                if (this.Test.CurrentElements != null && this.Test.CurrentElements.Count > 0)
+                if (Test.CurrentElements != null && Test.CurrentElements.Any())
                 {
-                    string html = this.Test.CurrentElements[0].Text;
-                    this.PostActionMessage = String.Format("Element text: {0}", html);
-                    this.Success = true;
+                    string html = Test.CurrentElements.First().Text;
+                    PostActionMessage = String.Format("Element text: {0}", html);
+                    Success = true;
                 }
                 else
                 {
-                    this.PostActionMessage = "There are no elements currently selected";
-                    this.Success = false;
+                    PostActionMessage = "There are no elements currently selected";
+                    Success = false;
                 }
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }

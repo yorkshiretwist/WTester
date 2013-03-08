@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace stillbreathing.co.uk.WTester.Actions.ActionProcessing
@@ -15,12 +12,12 @@ namespace stillbreathing.co.uk.WTester.Actions.ActionProcessing
 
         public Pause(int interval)
         {
-            this.Interval = interval;
+            Interval = interval;
         }
 
         public override void PreAction()
         {
-            this.PreActionMessage = String.Format("Pausing for {0} seconds", this.Interval);
+            PreActionMessage = String.Format("Pausing for {0} seconds", Interval);
         }
 
         /// <summary>
@@ -30,14 +27,14 @@ namespace stillbreathing.co.uk.WTester.Actions.ActionProcessing
         {
             try
             {
-                this.Success = true;
-                Thread.Sleep(this.Interval * 1000);
-                this.PostActionMessage = String.Format("Paused for {0} seconds", this.Interval);
+                Success = true;
+                Thread.Sleep(Interval * 1000);
+                PostActionMessage = String.Format("Paused for {0} seconds", Interval);
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }

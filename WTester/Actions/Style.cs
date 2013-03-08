@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using WatiN.Core;
+using OpenQA.Selenium;
 
 namespace stillbreathing.co.uk.WTester.Actions.Style
 {
@@ -16,28 +13,29 @@ namespace stillbreathing.co.uk.WTester.Actions.Style
 
         public CSS(string styles)
         {
-            this.Styles = styles;
+            Styles = styles;
         }
 
         public override void PreAction()
         {
-            this.PreActionMessage = "Applying CSS styles";
+            PreActionMessage = "Applying CSS styles";
         }
 
         public override void Execute()
         {
             try
             {
+                var js = Test.Browser as IJavaScriptExecutor;
                 string styleScript = "var head = document.getElementsByTagName('head')[0].innerHTML; head = head + '<style type=\"text/css\" class=\"wtesterstyles\">{0}</style>';";
-                styleScript = string.Format(styleScript, this.Styles);
-                string result = this.Test.Browser.Eval(styleScript);
-                this.PostActionMessage = "Applied CSS styles";
-                this.Success = true;
+                styleScript = string.Format(styleScript, Styles);
+                js.ExecuteScript(styleScript, null);
+                PostActionMessage = "Applied CSS styles";
+                Success = true;
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -47,25 +45,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Style
     /// </summary>
     public class ZoomIn : BaseAction
     {
-        public ZoomIn() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Zooming in";
+            PreActionMessage = "Zooming in";
         }
 
         public override void Execute()
         {
             try
             {
-                this.Success = true;
+                Success = true;
                 SendKeys.SendWait("^{+}");
-                this.PostActionMessage = "Zoomed in";
+                PostActionMessage = "Zoomed in";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -75,25 +71,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Style
     /// </summary>
     public class ZoomOut : BaseAction
     {
-        public ZoomOut() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Zooming out";
+            PreActionMessage = "Zooming out";
         }
 
         public override void Execute()
         {
             try
             {
-                this.Success = true;
+                Success = true;
                 SendKeys.SendWait("^{-}");
-                this.PostActionMessage = "Zoomed out";
+                PostActionMessage = "Zoomed out";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }
@@ -103,25 +97,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Style
     /// </summary>
     public class ResetZoom : BaseAction
     {
-        public ResetZoom() { }
-
         public override void PreAction()
         {
-            this.PreActionMessage = "Resetting zoom";
+            PreActionMessage = "Resetting zoom";
         }
 
         public override void Execute()
         {
             try
             {
-                this.Success = true;
+                Success = true;
                 SendKeys.SendWait("^{0}");
-                this.PostActionMessage = "Reset zoom";
+                PostActionMessage = "Reset zoom";
             }
             catch (Exception ex)
             {
-                this.PostActionMessage = ex.Message;
-                this.Success = false;
+                PostActionMessage = ex.Message;
+                Success = false;
             }
         }
     }

@@ -8,6 +8,8 @@ namespace stillbreathing.co.uk.WTester
     public enum BrowserType
     {
         IE,
-        Firefox
+        Firefox,
+        Chrome,
+        Safari
     }
 }

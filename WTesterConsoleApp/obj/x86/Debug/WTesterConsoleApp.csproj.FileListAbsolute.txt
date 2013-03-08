@@ -21,3 +21,16 @@ D:\projects\dotnet\WTester\WTesterConsoleApp\bin\Debug\Microsoft.mshtml.dll
 D:\projects\dotnet\WTester\WTesterConsoleApp\bin\Debug\WTester.pdb
 D:\projects\dotnet\WTester\WTesterConsoleApp\bin\Debug\WatiN.Core.xml
 D:\projects\dotnet\WTester\WTesterConsoleApp\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\bin\Debug\WTesterConsoleApp.exe.config
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\bin\Debug\WTesterConsoleApp.exe
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\bin\Debug\WTesterConsoleApp.pdb
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\bin\Debug\WTester.dll
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\bin\Debug\WTester.pdb
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\obj\x86\Debug\WTesterConsoleApp.exe
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\obj\x86\Debug\WTesterConsoleApp.pdb
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\bin\Debug\WebDriver.dll
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\bin\Debug\WebDriver.pdb
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\bin\Debug\WebDriver.xml
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\bin\Debug\chromedriver.exe
+C:\Projects\Cubik\utilities\testing\WTester\WTester-master\WTesterConsoleApp\bin\Debug\IEDriverServer.exe
