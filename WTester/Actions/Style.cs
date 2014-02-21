@@ -26,7 +26,7 @@ namespace stillbreathing.co.uk.WTester.Actions.Style
             try
             {
                 var js = Test.Browser as IJavaScriptExecutor;
-                string styleScript = "var head = document.getElementsByTagName('head')[0].innerHTML; head = head + '<style type=\"text/css\" class=\"wtesterstyles\">{0}</style>';";
+                string styleScript = "var head = document.getElementsByTagName('head')[0].innerHTML; document.getElementsByTagName('head')[0].innerHTML = head + '<style type=\"text/css\" class=\"wtesterstyles\">{0}</style>';";
                 styleScript = string.Format(styleScript, Styles);
                 js.ExecuteScript(styleScript, null);
                 PostActionMessage = "Applied CSS styles";

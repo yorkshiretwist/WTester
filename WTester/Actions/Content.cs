@@ -122,24 +122,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
         {
             try
             {
-                if (Test.CurrentElements != null && Test.CurrentElements.Any())
-                {
-                    int x = 0;
-                    foreach (IWebElement el in Test.CurrentElements)
-                    {
-                        var js = Test.Browser as IJavaScriptExecutor;
-                        // TODO
-                        //js.ExecuteScript(".setAttribute('style', '{1}');", el., "color: yellow; border: 2px solid yellow;");
-                        x++;
-                    }
-                    PostActionMessage = String.Format("Elements highlighted: {0}", x);
-                    Success = true;
-                }
-                else
+                if (Test.CurrentElements == null || !Test.CurrentElements.Any())
                 {
                     PostActionMessage = "There are no elements currently selected";
                     Success = false;
+                    return;
                 }
+
+                int x = 0;
+                foreach (IWebElement el in Test.CurrentElements)
+                {
+                    var js = Test.Browser as IJavaScriptExecutor;
+                    // TODO
+                    //js.ExecuteScript(".setAttribute('style', '{1}');", el., "color: yellow; border: 2px solid yellow;");
+                    x++;
+                }
+                PostActionMessage = String.Format("Elements highlighted: {0}", x);
+                Success = true;
             }
             catch (Exception ex)
             {

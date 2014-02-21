@@ -1,6 +1,5 @@
 ﻿using System;
 using OpenQA.Selenium.Support.UI;
-using WatiN.Core;
 
 namespace stillbreathing.co.uk.WTester.Actions.Navigation
 {

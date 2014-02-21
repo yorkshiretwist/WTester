@@ -1,4 +1,8 @@
-﻿namespace stillbreathing.co.uk.WTester.Actions
+﻿using System.Collections.Generic;
+using System.Linq;
+using OpenQA.Selenium;
+
+namespace stillbreathing.co.uk.WTester.Actions
 {
     /// <summary>
     /// The base Action from which all internal WTester Action derive
@@ -34,5 +38,75 @@
         /// The method that is invoked when the Action is run
         /// </summary>
         public abstract void Execute();
+
+        /// <summary>
+        /// The selector given to find the elements on which to perform this action
+        /// </summary>
+        public string Selector;
+
+        /// <summary>
+        /// The elements on which the action will be performed
+        /// </summary>
+        public IEnumerable<IWebElement> Elements;
+
+        /// <summary>
+        /// Gets the first element in the elements found for the current selection
+        /// </summary>
+        public IWebElement FirstElement
+        {
+            get 
+            { 
+                IEnumerable<IWebElement> elements = GetElements();
+                if (elements == null)
+                {
+                    return null;
+                }
+
+                return elements.FirstOrDefault();
+            }
+        }
+
+        /// <summary>
+        /// Gets the last element in the elements found for the current selection
+        /// </summary>
+        public IWebElement LastElement
+        {
+            get
+            {
+                IEnumerable<IWebElement> elements = GetElements();
+                if (elements == null)
+                {
+                    return null;
+                }
+
+                return elements.LastOrDefault();
+            }
+        }
+
+        /// <summary>
+        /// Finds elements with the given selector and assigns them to the Elements property
+        /// </summary>
+        /// <param name="selector"></param>
+        protected void FindElements(string selector)
+        {
+            if (!string.IsNullOrWhiteSpace(selector))
+            {
+                Elements = Test.Browser.FindElements(By.CssSelector(selector));
+            }
+        }
+
+        /// <summary>
+        /// Gets the elements to be used
+        /// </summary>
+        /// <returns></returns>
+        protected IEnumerable<IWebElement> GetElements()
+        {
+            if (Elements != null && Elements.Any())
+            {
+                return Elements;
+            }
+
+            return Test.CurrentElements;
+        }
 	}
 }

@@ -1,5 +1,0 @@
-﻿$.load("www.google.com")
-$.find("input[name=q]").typetext("chocolate")
-$.find("input[name=btnG]").click()
-$.pause(10);
-$.close()

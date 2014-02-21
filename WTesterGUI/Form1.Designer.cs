@@ -1,6 +1,6 @@
 ﻿namespace stillbreathing.co.uk.WTesterGUI
 {
-    partial class Form1
+    partial class WTesterForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WTesterForm));
             this.btnRun = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabs = new System.Windows.Forms.TabControl();
@@ -102,7 +102,7 @@
             this.tbSource.Name = "tbSource";
             this.tbSource.Size = new System.Drawing.Size(607, 429);
             this.tbSource.TabIndex = 4;
-            this.tbSource.Text = resources.GetString("tbSource.Text");
+            this.tbSource.Text = "$.browser(\"firefox\")\r\n$.load(\"www.google.com\")";
             this.tbSource.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbSource_KeyDown);
             // 
             // tabResults
@@ -111,7 +111,7 @@
             this.tabResults.Location = new System.Drawing.Point(4, 22);
             this.tabResults.Name = "tabResults";
             this.tabResults.Padding = new System.Windows.Forms.Padding(3);
-            this.tabResults.Size = new System.Drawing.Size(613, 433);
+            this.tabResults.Size = new System.Drawing.Size(613, 435);
             this.tabResults.TabIndex = 1;
             this.tabResults.Text = "Results";
             this.tabResults.UseVisualStyleBackColor = true;
@@ -133,7 +133,7 @@
             this.tabHelp.Controls.Add(this.rtbHelp);
             this.tabHelp.Location = new System.Drawing.Point(4, 22);
             this.tabHelp.Name = "tabHelp";
-            this.tabHelp.Size = new System.Drawing.Size(613, 433);
+            this.tabHelp.Size = new System.Drawing.Size(613, 435);
             this.tabHelp.TabIndex = 2;
             this.tabHelp.Text = "Help";
             this.tabHelp.UseVisualStyleBackColor = true;
@@ -199,7 +199,7 @@
             this.pbProgress.Size = new System.Drawing.Size(621, 23);
             this.pbProgress.TabIndex = 9;
             // 
-            // Form1
+            // WTesterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -210,7 +210,8 @@
             this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.tabs);
             this.Controls.Add(this.btnRun);
-            this.Name = "Form1";
+            this.MinimumSize = new System.Drawing.Size(661, 580);
+            this.Name = "WTesterForm";
             this.Text = "WTester";
             this.tabs.ResumeLayout(false);
             this.tabScript.ResumeLayout(false);

@@ -192,7 +192,14 @@ namespace stillbreathing.co.uk.WTester
 
             // forms
             RegisterAction("click", "stillbreathing.co.uk.WTester.Actions.Forms.Click");
+            RegisterAction("clicklast", "stillbreathing.co.uk.WTester.Actions.Forms.ClickLast");
             RegisterAction("typetext", "stillbreathing.co.uk.WTester.Actions.Forms.TypeText");
+            RegisterAction("firstname", "stillbreathing.co.uk.WTester.Actions.Forms.FirstName");
+            RegisterAction("lastname", "stillbreathing.co.uk.WTester.Actions.Forms.LastName");
+            RegisterAction("selectvalue", "stillbreathing.co.uk.WTester.Actions.Forms.SelectValue");
+            RegisterAction("selecttext", "stillbreathing.co.uk.WTester.Actions.Forms.SelectText");
+            RegisterAction("selectindex", "stillbreathing.co.uk.WTester.Actions.Forms.SelectIndex");
+            RegisterAction("selectrandom", "stillbreathing.co.uk.WTester.Actions.Forms.SelectRandom");
 
             // javascript
             RegisterAction("eval", "stillbreathing.co.uk.WTester.Actions.JavaScript.Eval");
@@ -227,6 +234,11 @@ namespace stillbreathing.co.uk.WTester
             RegisterAction("nexttab", "stillbreathing.co.uk.WTester.Actions.Window.NextTab");
             RegisterAction("previoustab", "stillbreathing.co.uk.WTester.Actions.Window.PreviousTab");
             RegisterAction("keypress", "stillbreathing.co.uk.WTester.Actions.Window.KeyPress");
+
+            // cookies
+            RegisterAction("getcookie", "stillbreathing.co.uk.WTester.Actions.Cookies.GetCookie");
+            RegisterAction("setcookie", "stillbreathing.co.uk.WTester.Actions.Cookies.SetCookie");
+            RegisterAction("deletecookie", "stillbreathing.co.uk.WTester.Actions.Cookies.DeleteCookie");
         }
 
         /// <summary>
@@ -236,7 +248,8 @@ namespace stillbreathing.co.uk.WTester
         /// <param name="typeName">The type name of the action to be called</param>
         public void RegisterAction(string functionName, string typeName)
         {
-            if (!ActionTypes.ContainsKey(functionName)) ActionTypes.Add(functionName, typeName);
+            if (!ActionTypes.ContainsKey(functionName)) 
+                ActionTypes.Add(functionName, typeName);
         }
 
         #endregion
@@ -372,7 +385,7 @@ namespace stillbreathing.co.uk.WTester
                     Browser = new SafariDriver();
                     break;
                 default:
-                    Browser = new InternetExplorerDriver();
+                    Browser = new InternetExplorerDriver(new InternetExplorerOptions() { IntroduceInstabilityByIgnoringProtectedModeSettings = true });
                     break;
             }
         }
@@ -386,6 +399,23 @@ namespace stillbreathing.co.uk.WTester
         {
             foreach (string line in Lines)
             {
+                // check this line is valid
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+
+                // if the line starts with // it is a comment
+                if (line.StartsWith("//"))
+                {
+                    // create the results parameters array
+                    var resultParameters = new List<object> { "Comment:", new List<object>(), true, line };
+
+                    // invoke the action result delegate
+                    actionResultDelegate.DynamicInvoke(resultParameters.ToArray());
+
+                    // go to the next line
+                    continue;
+                }
+
                 // every line must start with '$.'
                 if (line.StartsWith("$."))
                 {

@@ -99,9 +99,15 @@
       <Link>IEDriverServer.exe</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="jquery-1.8.2.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="resources\control_pause_blue.png" />
     <Content Include="resources\control_play_blue.png" />
     <Content Include="resources\folder_go.png" />
+    <Content Include="test.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

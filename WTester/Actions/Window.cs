@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenQA.Selenium;
@@ -279,14 +280,20 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
 
     public class KeyPress : BaseAction
     {
-        private string Keys;
+        public string KeysText;
+        public string Keys;
 
         /// <summary>
         /// Presses the given keys
         /// </summary>
-        public KeyPress(string keys)
+        public KeyPress(string keysText)
         {
-            Keys = keys;
+            KeysText = keysText;
+
+            if (!KeysText.Contains("{"))
+            {
+                GetKeys();
+            }
         }
 
         public override void PreAction()
@@ -294,13 +301,41 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
             PreActionMessage = "Pressing keys";
         }
 
+        /// <summary>
+        /// Translates the given keys text into the correct keys class
+        /// </summary>
+        private void GetKeys()
+        {
+            if (string.IsNullOrWhiteSpace(KeysText))
+            {
+                return;
+            }
+
+            try
+            {
+                MemberInfo[] keysMembers = typeof(OpenQA.Selenium.Keys).GetMembers(BindingFlags.Static | BindingFlags.Public);
+                foreach (MemberInfo keysMember in keysMembers)
+                {
+                    if (keysMember.MemberType == MemberTypes.Field && keysMember.Name.ToLower() == KeysText.ToLower())
+                    {
+                        Keys = ((FieldInfo)keysMember).GetValue(null).ToString();
+                        return;
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
         public override void Execute()
         {
             try
             {
                 Success = true;
-                SendKeys.SendWait(Keys);
-                PostActionMessage = String.Format("Sent keys '{0}'", Keys);
+                SendKeys.SendWait(Keys == null ? KeysText : Keys);
+                PostActionMessage = String.Format("Sent keys '{0}'", KeysText);
             }
             catch (Exception ex)
             {

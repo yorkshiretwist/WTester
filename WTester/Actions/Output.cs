@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using OpenQA.Selenium;
 using System.Drawing.Imaging;
+using stillbreathing.co.uk.WTester.Helpers;
 
 namespace stillbreathing.co.uk.WTester.Actions.Output
 {
@@ -65,9 +67,8 @@ namespace stillbreathing.co.uk.WTester.Actions.Output
         {
             try
             {
-                Success = true;
-                var shot = Test.Browser as ITakesScreenshot;
-                var ss = shot.GetScreenshot();
+                Success = false;
+
                 ImageFormat format = ImageFormat.Jpeg;
                 string ext = Path.GetExtension(FileName);
                 switch (ext.ToLower())
@@ -81,8 +82,50 @@ namespace stillbreathing.co.uk.WTester.Actions.Output
                 }
                 string fileName = FileName;
                 fileName = new FilenameFormatter(Test).Format(fileName);
-                ss.SaveAsFile(fileName, format);
-                PostActionMessage = String.Format("Saved screenshot to {0}", FileName);
+
+                // Chrome has a bug which stops it capturing the whole of the screen
+                // see https://code.google.com/p/chromedriver/issues/detail?id=294
+                if (Test.BrowserType == BrowserType.Chrome)
+                {
+                    var ss = new ChromeScreenshot();
+                    Bitmap bitmap = ss.GetScreenshot(Test);
+                    if (bitmap == null)
+                    {
+                        PostActionMessage = "Screenshot could not be generated";
+                        return;
+                    }
+
+                    bitmap.Save(fileName, format);
+                    if (!File.Exists(fileName))
+                    {
+                        PostActionMessage = String.Format("Screenshot could not be saved to {0}", FileName);
+                        return;
+                    }
+
+                    Success = true;
+                    PostActionMessage = String.Format("Saved screenshot to {0}", FileName);
+                }
+                else
+                {
+                    var shot = Test.Browser as ITakesScreenshot;
+
+                    if (shot == null)
+                    {
+                        PostActionMessage = String.Format("Current browser ({0}) does not implement ITakesScreenshot", Test.BrowserType);
+                        return;
+                    }
+
+                    var ss = shot.GetScreenshot();
+                    ss.SaveAsFile(fileName, format);
+                    if (!File.Exists(fileName))
+                    {
+                        PostActionMessage = String.Format("Screenshot could not be saved to {0}", FileName);
+                        return;
+                    }
+
+                    Success = true;
+                    PostActionMessage = String.Format("Saved screenshot to {0}", FileName);
+                }
             }
             catch (Exception ex)
             {
@@ -94,7 +137,7 @@ namespace stillbreathing.co.uk.WTester.Actions.Output
 
     public class FilenameFormatter
     {
-        private WTest _test;
+        private readonly WTest _test;
 
         public FilenameFormatter(WTest test)
         {

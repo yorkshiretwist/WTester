@@ -1,0 +1,5 @@
+$.browser("chrome")
+$.load("http://en.wikipedia.org/wiki/Chocolate")
+$.screenshot("chocolate-image-search.jpg")
+$.pause(10)
+$.close()

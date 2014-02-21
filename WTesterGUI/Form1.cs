@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.IO;
@@ -9,11 +10,11 @@ using stillbreathing.co.uk.WTester;
 
 namespace stillbreathing.co.uk.WTesterGUI
 {
-    public partial class Form1 : Form
+    public partial class WTesterForm : Form
     {
         private Thread _testThread;
 
-        public Form1()
+        public WTesterForm()
         {
             InitializeComponent();
             btnPause.Enabled = false;
@@ -29,12 +30,14 @@ namespace stillbreathing.co.uk.WTesterGUI
         /// <param name="e"></param>
         private void btnOpen_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Filter = "WTest files (*.wtest) | *.wtest | All files | *.*";
+            openFileDialog1.Filter = "WTest files (*.wtest)|*.wtest|All files|*.*";
             openFileDialog1.FileName = "";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 var sr = new StreamReader(openFileDialog1.FileName);
-                tbSource.Text = sr.ReadToEnd();
+                var text = sr.ReadToEnd();
+                string normalized = Regex.Replace(text, @"\r\n|\n\r|\n|\r", "\r\n");
+                tbSource.Text = normalized;
                 sr.Close();
             }
         }
@@ -161,6 +164,8 @@ namespace stillbreathing.co.uk.WTesterGUI
             btnCancel.Enabled = false;
             btnPause.Enabled = false;
             btnRun.Enabled = true;
+            pbProgress.Value = 0;
+            pbProgress.Enabled = false;
             if (_testThread != null) _testThread.Abort();
         }
     }

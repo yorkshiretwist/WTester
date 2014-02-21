@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>WTester Tests</title>
+	<style type="text/css">
+	.result { font-variant: small-caps; }
+	.success { color: #0c0; }
+	.error { color: #c00; }
+        .notrun { color: #ccc; }
+	</style>
+</head>
+<body>
+    <h1>WTester Tests</h1>
+    <p>Welcome to the WTester test page.</p>
+    
+    <div id="Forms">
+        <h2>Forms</h2>
+
+        <div id="Click" class="test">
+            <h3>Click <span class="result"></span></h3>
+            <p>Test clicking of the current element.</p>
+            <p><button type="button">Button</button></p>
+        </div>
+
+        <div id="ClickSelector" class="test">
+            <h3>Click(selector) <span class="result"></span></h3>
+            <p>Test clicking of an element found with a selector.</p>
+            <p><button type="button">Button</button></p>
+        </div>
+        
+        <div id="ClickLast" class="test">
+            <h3>ClickLast <span class="result"></span></h3>
+            <p>Test clicking of the last of the current elements.
+            <p><button type="button" class="clicklast first">First</button> <button type="button" class="clicklast last">Last</button></p>
+        </div>
+
+        <div id="ClickLastSelector" class="test">
+            <h3>ClickLast(selector) <span class="result"></span></h3>
+            <p>Test clicking the last element found with a selector.
+            <p><button type="button" class="clicklastselector first">First</button> <button type="button" class="clicklastselector last">Last</button></p>
+        </div>
+        
+        <div id="SelectRandom" class="test">
+            <h3>SelectRandom <span class="result"></span></h3>
+            <p>Tests selecting a random item from the current select list.
+            <p>
+                <select>
+                    <option value="">No value</option>
+                    <option value="val">Value</option>
+                    <option value="val">Value</option>
+                    <option value="val">Value</option>
+                </select>
+            </p>
+        </div>
+        
+        <div id="SelectRandomSelector" class="test">
+            <h3>SelectRandom(selector) <span class="result"></span></h3>
+            <p>Tests selecting a random item from a select list found with a selector.
+            <p>
+                <select>
+                    <option value="">No value</option>
+                    <option value="val">Value</option>
+                    <option value="val">Value</option>
+                    <option value="val">Value</option>
+                </select>
+            </p>
+        </div>
+        
+        <div id="SelectValue" class="test">
+            <h3>SelectValue <span class="result"></span></h3>
+            <p>Tests selecting the item with the given value from the current select list.
+            <p>
+                <select>
+                    <option value="">No value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </p>
+        </div>
+        
+        <div id="SelectValueSelector" class="test">
+            <h3>SelectValue(selector) <span class="result"></span></h3>
+            <p>Tests selecting the item with the given value from a select list found with a selector.
+            <p>
+                <select>
+                    <option value="">No value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </p>
+        </div>
+        
+        <div id="SelectText" class="test">
+            <h3>SelectText <span class="result"></span></h3>
+            <p>Tests selecting the item with the given text from the current select list.
+            <p>
+                <select>
+                    <option value="">No value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </p>
+        </div>
+        
+        <div id="SelectTextSelector" class="test">
+            <h3>SelectText(selector) <span class="result"></span></h3>
+            <p>Tests selecting the item with the given text from a select list found with a selector.
+            <p>
+                <select>
+                    <option value="">No value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </p>
+        </div>
+        
+        <div id="SelectIndex" class="test">
+            <h3>SelectIndex <span class="result"></span></h3>
+            <p>Tests selecting the item with the given index from the current select list.
+            <p>
+                <select>
+                    <option value="">No value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </p>
+        </div>
+        
+        <div id="SelectIndexSelector" class="test">
+            <h3>SelectIndex(selector) <span class="result"></span></h3>
+            <p>Tests selecting the item with the given index from a select list found with a selector.
+            <p>
+                <select>
+                    <option value="">No value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </p>
+        </div>
+        
+        <div id="TypeText" class="test">
+            <h3>TypeText <span class="result"></span></h3>
+            <p>Tests typing text into a form field.
+            <p>
+                <input type="text" />
+            </p>
+        </div>
+        
+        <div id="TypeTextSelector" class="test">
+            <h3>TypeText(selector) <span class="result"></span></h3>
+            <p>Tests typing text into a form field found with a selector.
+            <p>
+                <input type="text" />
+            </p>
+        </div>
+        
+        <div id="RandomText" class="test">
+            <h3>RandomText <span class="result"></span></h3>
+            <p>Tests typing random text with a given maximum length into a form field.
+            <p>
+                <input type="text" />
+            </p>
+        </div>
+        
+        <div id="RandomTextMinMax" class="test">
+            <h3>RandomTextMinMax(selector) <span class="result"></span></h3>
+            <p>Tests typing random text with a given minimum and maximum length into a form field.
+            <p>
+                <input type="text" />
+            </p>
+        </div>
+        
+        <div id="RandomTextSelector" class="test">
+            <h3>RandomTextSelector(selector) <span class="result"></span></h3>
+            <p>Tests typing random text with a given maximum length into a form field found with a selector.
+            <p>
+                <input type="text" />
+            </p>
+        </div>
+        
+        <div id="RandomTextMinMaxSelector" class="test">
+            <h3>RandomTextMinMaxSelector(selector) <span class="result"></span></h3>
+            <p>Tests typing random text with a given minimum and maximum length into a form field found with a selector.
+            <p>
+                <input type="text" />
+            </p>
+        </div>
+        
+        <div id="FirstName" class="test">
+            <h3>FirstName <span class="result"></span></h3>
+            <p>Tests typing a random first name into a form field.
+            <p>
+                <input type="text" />
+            </p>
+        </div>
+        
+        <div id="FirstNameSelector" class="test">
+            <h3>FirstNameSelector(selector) <span class="result"></span></h3>
+            <p>Tests typing a random first name into a form field found with a selector.
+            <p>
+                <input type="text" />
+            </p>
+        </div>
+        
+        <div id="LastName" class="test">
+            <h3>LastName <span class="result"></span></h3>
+            <p>Tests typing a random last name into a form field.
+            <p>
+                <input type="text" />
+            </p>
+        </div>
+        
+        <div id="LastNameSelector" class="test">
+            <h3>LastName(selector) <span class="result"></span></h3>
+            <p>Tests typing a random last name into a form field found with a selector.
+            <p>
+                <input type="text" />
+            </p>
+        </div>
+
+    </div>
+
+    <div id="Cookies">
+        <h2>Cookies</h2>
+        
+        <div id="SetCookie" class="test">
+            <h3>SetCookie <span class="result"></span></h3>
+            <p>Test setting a cookie.</p>
+            <p><button type="button">Complete</button></p>
+        </div>
+        
+        <div id="GetCookie" class="test">
+            <h3>GetCookie <span class="result"></span></h3>
+            <p>Test getting the value of a cookie.</p>
+            <p><button type="button">Complete</button></p>
+        </div>
+        
+        <div id="DeleteCookie" class="test">
+            <h3>DeleteCookie <span class="result"></span></h3>
+            <p>Test deleting a cookie.</p>
+            <p><button type="button">Complete</button></p>
+        </div>
+        
+    </div>
+    
+    <script type="text/javascript" src="jquery-1.8.2.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            
+            // set all tests to not run
+            $('.result')
+                .removeClass('error')
+                .removeClass('success')
+                .addClass('notrun')
+                .html('Not run');
+        
+            // Form tests
+            
+            // Test clicking of the current element
+            $('#Forms #Click button').on('click', function() {
+                showSuccess($('#Forms #Click'));
+            });
+            
+            // Test clicking of an element found with a selector
+            $('#Forms #ClickSelector button').on('click', function () {
+                showSuccess($('#Forms #ClickSelector'));
+            });
+            
+            // Test clicking of the last of the current elements
+            $('#Forms #ClickLast button.last').on('click', function () {
+                showSuccess($('#Forms #ClickLast'));
+            });
+
+            // Test clicking of an element found with a selector
+            $('#Forms #ClickLastSelector button.last').on('click', function () {
+                showSuccess($('#Forms #ClickLastSelector'));
+            });
+            
+            // Tests selecting a random item from the current select list
+            $('#Forms #SelectRandom select').on('change', function () {
+                var select = $(this);
+                if (select.val() === 'val') {
+                    showSuccess($('#Forms #SelectRandom'));
+                } else {
+                    showFailure($('#Forms #SelectRandom'));
+                }
+            });
+
+            // Tests selecting a random item from a select list found with a selector
+            $('#Forms #SelectRandomSelector select').on('change', function () {
+                var select = $(this);
+                if (select.val() === 'val') {
+                    showSuccess($('#Forms #SelectRandomSelector'));
+                } else {
+                    showFailure($('#Forms #SelectRandomSelector'));
+                }
+            });
+            
+            // Tests selecting the item with the given value from the current select list
+            $('#Forms #SelectValue select').on('change', function () {
+                var select = $(this);
+                if (select.val() === '2') {
+                    showSuccess($('#Forms #SelectValue'));
+                } else {
+                    showFailure($('#Forms #SelectValue'));
+                }
+            });
+
+            // Tests selecting the item with the given value from a select list found with a selector
+            $('#Forms #SelectValueSelector select').on('change', function () {
+                var select = $(this);
+                if (select.val() === '2') {
+                    showSuccess($('#Forms #SelectValueSelector'));
+                } else {
+                    showFailure($('#Forms #SelectValueSelector'));
+                }
+            });
+            
+            // Tests selecting the item with the given text from the current select list
+            $('#Forms #SelectText select').on('change', function () {
+                var select = $(this);
+                if (select.val() === '2') {
+                    showSuccess($('#Forms #SelectText'));
+                } else {
+                    showFailure($('#Forms #SelectText'));
+                }
+            });
+
+            // Tests selecting the item with the given text from a select list found with a selector
+            $('#Forms #SelectTextSelector select').on('change', function () {
+                var select = $(this);
+                if (select.val() === '2') {
+                    showSuccess($('#Forms #SelectTextSelector'));
+                } else {
+                    showFailure($('#Forms #SelectTextSelector'));
+                }
+            });
+            
+            // Tests selecting the item with the given index from the current select list
+            $('#Forms #SelectIndex select').on('change', function () {
+                var select = $(this);
+                if (select.val() === '2') {
+                    showSuccess($('#Forms #SelectIndex'));
+                } else {
+                    showFailure($('#Forms #SelectIndex'));
+                }
+            });
+
+            // Tests selecting the item with the given index from a select list found with a selector
+            $('#Forms #SelectIndexSelector select').on('change', function () {
+                var select = $(this);
+                if (select.val() === '2') {
+                    showSuccess($('#Forms #SelectIndexSelector'));
+                } else {
+                    showFailure($('#Forms #SelectIndexSelector'));
+                }
+            });
+            
+            // Tests typing text into the current form field
+            $('#Forms #TypeText input').on('blur', function () {
+                var input = $(this);
+                if (input.val() === 'test') {
+                    showSuccess($('#Forms #TypeText'));
+                } else {
+                    showFailure($('#Forms #TypeText'));
+                }
+            });
+
+            // Tests typing text into the current form field found with a selector
+            $('#Forms #TypeTextSelector input').on('blur', function () {
+                var input = $(this);
+                if (input.val() === 'test') {
+                    showSuccess($('#Forms #TypeTextSelector'));
+                } else {
+                    showFailure($('#Forms #TypeTextSelector'));
+                }
+            });
+            
+            // Tests typing random text into the current form field of a given maximum length
+            $('#Forms #RandomText input').on('blur', function () {
+                var input = $(this);
+                if (input.val().length && input.val().length <= 10) {
+                    showSuccess($('#Forms #RandomText'));
+                } else {
+                    showFailure($('#Forms #RandomText'));
+                }
+            });
+            
+            // Tests typing random text into the current form field of a given minimum and maximum length
+            $('#Forms #RandomTextMinMax input').on('blur', function () {
+                var input = $(this);
+                if (input.val().length && input.val().length >= 5 && input.val().length <= 10) {
+                    showSuccess($('#Forms #RandomTextMinMax'));
+                } else {
+                    showFailure($('#Forms #RandomTextMinMax'));
+                }
+            });
+
+            // Tests typing random text into the current form field found with a selector of a given maximum length
+            $('#Forms #RandomTextSelector input').on('blur', function () {
+                var input = $(this);
+                if (input.val().length && input.val().length <= 10) {
+                    showSuccess($('#Forms #RandomTextSelector'));
+                } else {
+                    showFailure($('#Forms #RandomTextSelector'));
+                }
+            });
+            
+            // Tests typing random text into the current form field found with a selector of a given minimum and maximum length
+            $('#Forms #RandomTextMinMaxSelector input').on('blur', function () {
+                var input = $(this);
+                if (input.val().length && input.val().length >= 5 && input.val().length <= 10) {
+                    showSuccess($('#Forms #RandomTextMinMaxSelector'));
+                } else {
+                    showFailure($('#Forms #RandomTextMinMaxSelector'));
+                }
+            });
+            
+            // Tests typing a random first name into the current form field
+            $('#Forms #FirstName input').on('blur', function () {
+                var input = $(this);
+                if (input.val().length) {
+                    showSuccess($('#Forms #FirstName'));
+                } else {
+                    showFailure($('#Forms #FirstName'));
+                }
+            });
+
+            // Tests typing a random first name into the current form field found with a selector
+            $('#Forms #FirstNameSelector input').on('blur', function () {
+                var input = $(this);
+                if (input.val().length) {
+                    showSuccess($('#Forms #FirstNameSelector'));
+                } else {
+                    showFailure($('#Forms #FirstNameSelector'));
+                }
+            });
+            
+            // Tests typing a random last name into the current form field
+            $('#Forms #LastName input').on('blur', function () {
+                var input = $(this);
+                if (input.val().length) {
+                    showSuccess($('#Forms #LastName'));
+                } else {
+                    showFailure($('#Forms #LastName'));
+                }
+            });
+
+            // Tests typing a random last name into the current form field found with a selector
+            $('#Forms #LastNameSelector input').on('blur', function () {
+                var input = $(this);
+                if (input.val().length) {
+                    showSuccess($('#Forms #LastNameSelector'));
+                } else {
+                    showFailure($('#Forms #LastNameSelector'));
+                }
+            });
+            
+            // Cookies tests
+            
+            // Tests setting a cookie
+            $('#Cookies #SetCookie button').on('click', function () {
+                if (document.cookies['test']) {
+                    showSuccess($('#Cookies #SetCookie'));
+                } else {
+                    showFailure($('#Cookies #SetCookie'));
+                }
+            });
+            
+            // Tests setting a cookie
+            $('#Cookies #GetCookie button').on('click', function () {
+                if (document.cookies['test'] === 'test') {
+                    showSuccess($('#Cookies #GetCookie'));
+                } else {
+                    showFailure($('#Cookies #GetCookie'));
+                }
+            });
+            
+            // Tests deleting a cookie
+            $('#Cookies #DeleteCookie button').on('click', function () {
+                if (!document.cookies['test']) {
+                    showSuccess($('#Cookies #DeleteCookie'));
+                } else {
+                    showFailure($('#Cookies #DeleteCookie'));
+                }
+            });
+            
+        });
+        function showSuccess(el) {
+            $('.result', el)
+                .removeClass('error')
+                .removeClass('notrun')
+                .addClass('success')
+                .html('Passed');
+        }
+        function showFailure(el) {
+            $('.result', el)
+                .removeClass('success')
+                .removeClass('notrun')
+                .addClass('error')
+                .html('Failed');
+        }
+    </script>
+</body>
+</html>

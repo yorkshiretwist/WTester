@@ -53,6 +53,9 @@
     <member name="M:OpenQA.Selenium.By.XPath(System.String)">
       <summary>
             Gets a mechanism to find elements by an XPath query.
+            When searching within a WebElement using xpath be aware that WebDriver follows standard conventions:
+            a search prefixed with "//" will search the entire document, not just the children of this current node.
+            Use ".//" to limit your search to the children of this WebElement.
             </summary>
       <param name="xpathToFind">The XPath query to use.</param>
       <returns>A <see cref="T:OpenQA.Selenium.By" /> object the driver can use to find the elements.</returns>
@@ -2151,6 +2154,11 @@
             Gets or sets the type of proxy.
             </summary>
     </member>
+    <member name="P:OpenQA.Selenium.Proxy.SerializableProxyKind">
+      <summary>
+            Gets the type of proxy as a string for JSON serialization.
+            </summary>
+    </member>
     <member name="P:OpenQA.Selenium.Proxy.IsAutoDetect">
       <summary>
             Gets or sets a value indicating whether the proxy uses automatic detection.
@@ -2168,7 +2176,7 @@
     </member>
     <member name="P:OpenQA.Selenium.Proxy.NoProxy">
       <summary>
-            Gets or sets the value for when no proxy is specified.
+            Gets or sets the value for bypass proxy addresses.
             </summary>
     </member>
     <member name="P:OpenQA.Selenium.Proxy.ProxyAutoConfigUrl">
@@ -2179,6 +2187,21 @@
     <member name="P:OpenQA.Selenium.Proxy.SslProxy">
       <summary>
             Gets or sets the value of the proxy for the SSL protocol.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.Proxy.SocksProxy">
+      <summary>
+            Gets or sets the value of the proxy for the SOCKS protocol.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.Proxy.SocksUserName">
+      <summary>
+            Gets or sets the value of username for the SOCKS proxy.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.Proxy.SocksPassword">
+      <summary>
+            Gets or sets the value of password for the SOCKS proxy.
             </summary>
     </member>
     <member name="T:OpenQA.Selenium.ScreenOrientation">
@@ -3522,6 +3545,27 @@
             Gets or sets the location of the log file written to by the ChromeDriver executable.
             </summary>
     </member>
+    <member name="P:OpenQA.Selenium.Chrome.ChromeDriverService.UrlPathPrefix">
+      <summary>
+            Gets or sets the base URL path prefix for commands (e.g., "wd/url").
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.Chrome.ChromeDriverService.PortServerAddress">
+      <summary>
+            Gets or sets the address of a server to contact for reserving a port.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.Chrome.ChromeDriverService.AndroidDebugBridgePort">
+      <summary>
+            Gets or sets the port on which the Android Debug Bridge is listening for commands.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.Chrome.ChromeDriverService.EnableVerboseLogging">
+      <summary>
+            Gets or sets a value indicating whether to enable verbose logging for the ChromeDriver executable.
+            Defaults to <see langword="false" />.
+            </summary>
+    </member>
     <member name="P:OpenQA.Selenium.Chrome.ChromeDriverService.CommandLineArguments">
       <summary>
             Gets the command-line arguments for the driver service.
@@ -3604,6 +3648,44 @@
             </summary>
       <param name="extensions">An <see cref="T:System.Collections.Generic.IEnumerable`1" /> of full paths to the extensions to add.</param>
     </member>
+    <member name="M:OpenQA.Selenium.Chrome.ChromeOptions.AddEncodedExtension(System.String)">
+      <summary>
+            Adds a base64-encoded string representing a Chrome extension to the list of extensions 
+            to be installed in the instance of Chrome.
+            </summary>
+      <param name="extension">A base64-encoded string representing the extension to add.</param>
+    </member>
+    <member name="M:OpenQA.Selenium.Chrome.ChromeOptions.AddEncodedExtensions(System.String[])">
+      <summary>
+            Adds a list of base64-encoded strings representing Chrome extensions to the list of extensions 
+            to be installed in the instance of Chrome.
+            </summary>
+      <param name="extensions">An array of base64-encoded strings representing the extensions to add.</param>
+    </member>
+    <member name="M:OpenQA.Selenium.Chrome.ChromeOptions.AddEncodedExtensions(System.Collections.Generic.IEnumerable{System.String})">
+      <summary>
+            Adds a list of base64-encoded strings representing Chrome extensions to be installed
+            in the instance of Chrome.
+            </summary>
+      <param name="extensions">An <see cref="T:System.Collections.Generic.IEnumerable`1" /> of base64-encoded strings
+            representing the extensions to add.</param>
+    </member>
+    <member name="M:OpenQA.Selenium.Chrome.ChromeOptions.AddUserProfilePreference(System.String,System.Object)">
+      <summary>
+            Adds a preference for the user-specific profile or "user data directory."
+            If the specified preference already exists, it will be overwritten.
+            </summary>
+      <param name="preferenceName">The name of the preference to set.</param>
+      <param name="preferenceValue">The value of the preference to set.</param>
+    </member>
+    <member name="M:OpenQA.Selenium.Chrome.ChromeOptions.AddLocalStatePreference(System.String,System.Object)">
+      <summary>
+            Adds a preference for the local state file in the user's data directory for Chrome.
+            If the specified preference already exists, it will be overwritten.
+            </summary>
+      <param name="preferenceName">The name of the preference to set.</param>
+      <param name="preferenceValue">The value of the preference to set.</param>
+    </member>
     <member name="M:OpenQA.Selenium.Chrome.ChromeOptions.AddAdditionalCapability(System.String,System.Object)">
       <summary>
             Provides a means to add additional capabilities not yet added as type safe options 
@@ -3629,6 +3711,17 @@
     <member name="P:OpenQA.Selenium.Chrome.ChromeOptions.BinaryLocation">
       <summary>
             Gets or sets the location of the Chrome browser's binary executable file.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.Chrome.ChromeOptions.LeaveBrowserRunning">
+      <summary>
+            Gets or sets a value indicating whether Chrome should be left running after the
+            ChromeDriver instance is exited. Defaults to <see langword="false" />.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.Chrome.ChromeOptions.Proxy">
+      <summary>
+            Gets or sets the proxy to use with this instance of Chrome.
             </summary>
     </member>
     <member name="P:OpenQA.Selenium.Chrome.ChromeOptions.Arguments">
@@ -4170,6 +4263,11 @@
             Gets or sets the timeout (in milliseconds) to wait for command execution.
             </summary>
     </member>
+    <member name="P:OpenQA.Selenium.Firefox.FirefoxBinary.Timeout">
+      <summary>
+            Gets or sets the timeout to wait for Firefox to be available for command execution.
+            </summary>
+    </member>
     <member name="P:OpenQA.Selenium.Firefox.FirefoxBinary.ConsoleOutput">
       <summary>
             Gets all console output of the binary.
@@ -4636,6 +4734,8 @@
             </summary>
       <param name="key">The name of the preference to set.</param>
       <param name="value">A <see cref="T:System.String" /> value give the preference.</param>
+      <remarks>If the preference already exists in the currently-set list of preferences, 
+            the value will be updated.</remarks>
     </member>
     <member name="M:OpenQA.Selenium.Firefox.Preferences.SetPreference(System.String,System.Int32)">
       <summary>
@@ -4643,6 +4743,8 @@
             </summary>
       <param name="key">The name of the preference to set.</param>
       <param name="value">A <see cref="T:System.Int32" /> value give the preference.</param>
+      <remarks>If the preference already exists in the currently-set list of preferences, 
+            the value will be updated.</remarks>
     </member>
     <member name="M:OpenQA.Selenium.Firefox.Preferences.SetPreference(System.String,System.Boolean)">
       <summary>
@@ -4650,6 +4752,8 @@
             </summary>
       <param name="key">The name of the preference to set.</param>
       <param name="value">A <see cref="T:System.Boolean" /> value give the preference.</param>
+      <remarks>If the preference already exists in the currently-set list of preferences, 
+            the value will be updated.</remarks>
     </member>
     <member name="M:OpenQA.Selenium.Firefox.Preferences.AppendPreferencesTo(System.Collections.Generic.Dictionary{System.String,System.String})">
       <summary>
@@ -4759,6 +4863,13 @@
       <param name="timeoutInMilliseconds">The amount of time (in milliseconds) to wait for 
             the mutex port to become available.</param>
     </member>
+    <member name="M:OpenQA.Selenium.Firefox.Internal.ILock.LockObject(System.TimeSpan)">
+      <summary>
+            Locks the mutex port.
+            </summary>
+      <param name="timeout">The <see cref="T:System.TimeSpan" /> describing the amount of time to wait for 
+            the mutex port to become available.</param>
+    </member>
     <member name="M:OpenQA.Selenium.Firefox.Internal.ILock.UnlockObject">
       <summary>
             Unlocks the mutex port.
@@ -4800,6 +4911,13 @@
       <param name="lockPort">Port to use to acquire the lock.</param>
       <remarks>The <see cref="T:OpenQA.Selenium.Firefox.Internal.SocketLock" /> class will attempt to acquire the
             specified port number, and wait for it to become free.</remarks>
+    </member>
+    <member name="M:OpenQA.Selenium.Firefox.Internal.SocketLock.LockObject(System.TimeSpan)">
+      <summary>
+            Locks the mutex port.
+            </summary>
+      <param name="timeout">The <see cref="T:System.TimeSpan" /> describing the amount of time to wait for 
+            the mutex port to become available.</param>
     </member>
     <member name="M:OpenQA.Selenium.Firefox.Internal.SocketLock.LockObject(System.Int64)">
       <summary>
@@ -5161,6 +5279,45 @@
       <summary>
             Gets or sets the amount of time the driver will attempt to look for a newly launched instance
             of Internet Explorer.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.IE.InternetExplorerOptions.ForceCreateProcessApi">
+      <summary>
+            Gets or sets a value indicating whether to force the use of the Windows CreateProcess API
+            when launching Internet Explorer. The default value is <see langword="false" />.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.IE.InternetExplorerOptions.BrowserCommandLineArguments">
+      <summary>
+            Gets or sets the command line arguments used in launching Internet Explorer when the 
+            Windows CreateProcess API is used. This property only has an effect when the
+            <see cref="P:OpenQA.Selenium.IE.InternetExplorerOptions.ForceCreateProcessApi" /> is <see langword="true" />.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.IE.InternetExplorerOptions.Proxy">
+      <summary>
+            Gets or sets the <see cref="P:OpenQA.Selenium.IE.InternetExplorerOptions.Proxy" /> to be used with Internet Explorer. By default,
+            will install the specified proxy to be the system proxy, used by all instances of
+            Internet Explorer. To change this default behavior, change the <see cref="P:OpenQA.Selenium.IE.InternetExplorerOptions.UsePerProcessProxy" />
+            property.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.IE.InternetExplorerOptions.UsePerProcessProxy">
+      <summary>
+            Gets or sets a value indicating whether to use the supplied <see cref="P:OpenQA.Selenium.IE.InternetExplorerOptions.Proxy" />
+            settings on a per-process basis, not updating the system installed proxy setting.
+            This property is only valid when setting a <see cref="P:OpenQA.Selenium.IE.InternetExplorerOptions.Proxy" />, where the
+            <see cref="P:OpenQA.Selenium.Proxy.Kind" /> property is either <see cref="F:OpenQA.Selenium.ProxyKind.Direct" />,
+            <see cref="F:OpenQA.Selenium.ProxyKind.System" />, or <see cref="F:OpenQA.Selenium.ProxyKind.Manual" />, and is
+            otherwise ignored. Defaults to <see langword="false" />.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.IE.InternetExplorerOptions.EnsureCleanSession">
+      <summary>
+            Gets or sets a value indicating whether to clear the Internet Explorer cache
+            before launching the browser. When set to <see langword="true" />, clears the
+            system cache for all instances of Internet Explorer, even those already running
+            when the driven instance is launched. Defaults to <see langword="false" />.
             </summary>
     </member>
     <member name="T:OpenQA.Selenium.IE.InternetExplorerWebElement">
@@ -6151,6 +6308,22 @@
             Gets a value determining if the cookie is secure.
             </summary>
     </member>
+    <member name="T:OpenQA.Selenium.PhantomJS.CommandLineArgumentNameAttribute">
+      <summary>
+            Allows the user to specify the name of an argument to be used on the command line for PhantomJS.
+            </summary>
+    </member>
+    <member name="M:OpenQA.Selenium.PhantomJS.CommandLineArgumentNameAttribute.#ctor(System.String)">
+      <summary>
+            Initializes a new instance of the <see cref="T:OpenQA.Selenium.PhantomJS.CommandLineArgumentNameAttribute" /> class.
+            </summary>
+      <param name="argumentName">The name of the argument to be used in the PhantomJS command line.</param>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.CommandLineArgumentNameAttribute.Name">
+      <summary>
+            Gets the name of the argument to be used in the PhantomJS command line.
+            </summary>
+    </member>
     <member name="T:OpenQA.Selenium.PhantomJS.PhantomJSDriver">
       <summary>
             Provides a way to access PhantomJS to run your tests by creating a PhantomJSDriver instance
@@ -6201,6 +6374,12 @@
             Initializes a new instance of the <see cref="T:OpenQA.Selenium.PhantomJS.PhantomJSDriver" /> class with the desired options.
             </summary>
       <param name="options">The <see cref="T:OpenQA.Selenium.PhantomJS.PhantomJSOptions" /> used to initialize the driver.</param>
+    </member>
+    <member name="M:OpenQA.Selenium.PhantomJS.PhantomJSDriver.#ctor(OpenQA.Selenium.PhantomJS.PhantomJSDriverService)">
+      <summary>
+            Initializes a new instance of the <see cref="T:OpenQA.Selenium.PhantomJS.PhantomJSDriver" /> class using the specified driver service.
+            </summary>
+      <param name="service">The <see cref="T:OpenQA.Selenium.PhantomJS.PhantomJSDriverService" /> used to initialize the driver.</param>
     </member>
     <member name="M:OpenQA.Selenium.PhantomJS.PhantomJSDriver.#ctor(System.String)">
       <summary>
@@ -6265,6 +6444,15 @@
             Exposes the service provided by the native PhantomJS executable and GhostDriver JavaScript library.
             </summary>
     </member>
+    <member name="M:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.#ctor">
+      <summary>
+            Prevents a default instance of the <see cref="T:OpenQA.Selenium.PhantomJS.PhantomJSDriverService" /> class from being created.
+            </summary>
+      <remarks>
+            This constructor is only used by the unit tests. It should not be
+            used in any other circumstances.
+            </remarks>
+    </member>
     <member name="M:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.#ctor(System.String,System.Int32)">
       <summary>
             Initializes a new instance of the PhantomJSDriverService class.
@@ -6284,6 +6472,154 @@
             </summary>
       <param name="driverPath">The directory containing the PhantomJS executable.</param>
       <returns>A PhantomJSDriverService using a random port.</returns>
+    </member>
+    <member name="M:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.AddArgument(System.String)">
+      <summary>
+            Adds a single argument to the list of arguments to be appended to the PhantomJS.exe command line.
+            </summary>
+      <param name="argument">The argument to add.</param>
+    </member>
+    <member name="M:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.AddArguments(System.String[])">
+      <summary>
+            Adds arguments to be appended to the PhantomJS.exe command line.
+            </summary>
+      <param name="arguments">An array of arguments to add.</param>
+    </member>
+    <member name="M:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.AddArguments(System.Collections.Generic.IEnumerable{System.String})">
+      <summary>
+            Adds arguments to be appended to the PhantomJS.exe command line.
+            </summary>
+      <param name="arguments">An <see cref="T:System.Collections.Generic.IEnumerable`1" /> object of arguments to add.</param>
+    </member>
+    <member name="M:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.ToJson">
+      <summary>
+            Serializes the service options to JSON to be used as a configuration file for PhantomJS.exe (via the --config argument).
+            </summary>
+      <returns>The JSON representation of the configured service options.</returns>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.CookiesFile">
+      <summary>
+            Gets or sets the file name used to store the persistent cookies.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.DiskCache">
+      <summary>
+            Gets or sets a value indicating whether the disk cache is enabled (at desktop services cache storage location, default is no).
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.IgnoreSslErrors">
+      <summary>
+            Gets or sets a value indicating whether SSL errors are ignored, such as expired or self-signed certificate errors (default is no).
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.LoadImages">
+      <summary>
+            Gets or sets a value indicating whether all inlined images are loaded (default is yes).
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.LocalStoragePath">
+      <summary>
+            Gets or sets the path to save LocalStorage content and WebSQL content.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.LocalStorageQuota">
+      <summary>
+            Gets or sets the maximum size to allow for data.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.LocalToRemoteUrlAccess">
+      <summary>
+            Gets or sets a value indicating whether local content is allowed to access remote URL (default is no).
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.MaxDiskCacheSize">
+      <summary>
+            Gets or sets the size limit of the disk cache in KB.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.OutputEncoding">
+      <summary>
+            Gets or sets the encoding used for terminal output (default is "utf8").
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.Proxy">
+      <summary>
+            Gets or sets the proxy server information (in the format of {address} or {address}:{port}).
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.ProxyType">
+      <summary>
+            Gets or sets the type of the proxy server ('http', 'socks5' or 'none').
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.ScriptEncoding">
+      <summary>
+            Gets or sets the encoding used for the starting script (default is "utf8").
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.SslProtocol">
+      <summary>
+            Gets or sets the SSL protocol for secure connections ('sslv3' (default), 'sslv2', 'tlsv1' or 'any').
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.WebSecurity">
+      <summary>
+            Gets or sets a value indicating whether web security is enabled and forbids cross-domain XHR (default is yes).
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.GhostDriverPath">
+      <summary>
+            Gets or sets the location where the GhostDriver JavaScript file is located. This
+            allows the use of an external implementation of GhostDriver instead of the
+            implementation embedded inside the PhantomJS executable.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.LogFile">
+      <summary>
+            Gets or sets the location of the log file to which PhantomJS will write log
+            output. If this value is <see langword="null" /> or an empty string, the log
+            output will be written to the console window.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.AdditionalArguments">
+      <summary>
+            Gets the list of arguments appended to the PhantomJS command line as a string array.
+            </summary>
+    </member>
+    <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.ConfigFile">
+      <summary>
+            Gets or sets the path to the JSON configuration file (in lieu of providing any other parameters).
+            </summary>
+      <remarks>If a <see cref="T:OpenQA.Selenium.PhantomJS.PhantomJSDriverService" /> instance is serialized to JSON, it can be saved to a 
+            file and used as a JSON configuration source for the PhantomJS.exe process.</remarks>
+      <example>
+        <code>
+            var configOptions = PhantomJSDriverService.CreateDefaultService()
+            {
+                CookiesFile = "cookiesFile",
+                DiskCache = true,
+                IgnoreSslErrors = true,
+                LoadImages = true,
+                LocalToRemoteUrlAccess = true,
+                MaxDiskCacheSize = 1000,
+                OutputEncoding = "abc",
+                Proxy = "address:999",
+                ProxyType = "socks5",
+                ScriptEncoding = "def",
+                SslProtocol = "sslv2",
+                WebSecurity = true,
+            };
+            
+            string json = configOptions.ToJson();
+            
+            File.WriteAllText(@"C:\temp\myconfig.json", json);
+            
+            var driverService = PhantomJSDriver.CreateDefaultService();
+            driverService.ConfigFile = @"C:\temp\myconfig.json";
+            
+            var driver = new PhantomJSDriver(driverService);  // Launches PhantomJS.exe using JSON configuration file.
+            </code>
+      </example>
     </member>
     <member name="P:OpenQA.Selenium.PhantomJS.PhantomJSDriverService.CommandLineArguments">
       <summary>
@@ -6420,6 +6756,11 @@
     <member name="F:OpenQA.Selenium.Remote.CapabilityType.HasNativeEvents">
       <summary>
             Capability name used to indicate whether the browser uses native events.
+            </summary>
+    </member>
+    <member name="F:OpenQA.Selenium.Remote.CapabilityType.UnexpectedAlertBehavior">
+      <summary>
+            Capability name used to indicate how the browser handles unexpected alerts.
             </summary>
     </member>
     <member name="T:OpenQA.Selenium.Remote.Command">
@@ -7894,36 +8235,6 @@
       <param name="writer">JSON Writer instance</param>
       <param name="value">the platform</param>
       <param name="serializer">JSON Serializer Instance</param>
-    </member>
-    <member name="T:OpenQA.Selenium.Remote.ProxyJsonConverter">
-      <summary>
-            Provides a way to convert a <see cref="T:OpenQA.Selenium.Proxy" /> array to JSON
-            </summary>
-    </member>
-    <member name="M:OpenQA.Selenium.Remote.ProxyJsonConverter.CanConvert(System.Type)">
-      <summary>
-            Checks if the object can be converted
-            </summary>
-      <param name="objectType">Type of the object</param>
-      <returns>A value indicating if it can be converted</returns>
-    </member>
-    <member name="M:OpenQA.Selenium.Remote.ProxyJsonConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
-      <summary>
-            Get the platform from the JSON reader
-            </summary>
-      <param name="reader">JSON Reader instance</param>
-      <param name="objectType">Object type being read</param>
-      <param name="existingValue">The existing value of the object</param>
-      <param name="serializer">JSON Serializer instance</param>
-      <returns>Platform from JSON reader</returns>
-    </member>
-    <member name="M:OpenQA.Selenium.Remote.ProxyJsonConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
-      <summary>
-            Create a JSON string representation of the Proxy
-            </summary>
-      <param name="writer">The JSON writer with a string</param>
-      <param name="value">Value of the string</param>
-      <param name="serializer">JSON serializer instance</param>
     </member>
     <member name="T:OpenQA.Selenium.Remote.ResponseValueJsonConverter">
       <summary>

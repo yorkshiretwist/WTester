@@ -9,15 +9,13 @@ namespace stillbreathing.co.uk.WTester.Actions.Elements
     /// </summary>
     public class Find : BaseAction
     {
-        public string Selector;
-
         /// <summary>
         /// Find a single element
         /// </summary>
         /// <returns></returns>
         public Find(string selector)
         {
-            Selector = selector;
+            Selector = selector.Trim().Trim('\'');
         }
 
         public override void PreAction()

@@ -46,9 +46,6 @@
     <Reference Include="ThoughtWorks.Selenium.Core">
       <HintPath>Selenium\ThoughtWorks.Selenium.Core.dll</HintPath>
     </Reference>
-    <Reference Include="WatiN.Core">
-      <HintPath>Resources\WatiN.Core.dll</HintPath>
-    </Reference>
     <Reference Include="WebDriver">
       <HintPath>Selenium\WebDriver.dll</HintPath>
     </Reference>
@@ -58,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionInvoker.cs" />
+    <Compile Include="Actions\Cookies.cs" />
     <Compile Include="Actions\JavaScript.cs" />
     <Compile Include="Actions\Navigation.cs" />
     <Compile Include="Actions\IAction.cs" />
@@ -69,6 +67,8 @@
     <Compile Include="Actions\Style.cs" />
     <Compile Include="Actions\Window.cs" />
     <Compile Include="BrowserTypes.cs" />
+    <Compile Include="Helpers\ChromeScreenshot.cs" />
+    <Compile Include="Helpers\Randomiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchTypes.cs" />
     <Compile Include="WTester.cs" />
@@ -78,7 +78,9 @@
   <ItemGroup>
     <Compile Include="Actions\BaseAction.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Helpers\readme.txt" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="ActionTests\ActionProcessing\Pause.wtest" />
     <None Include="ActionTests\Content\Highlight.wtest" />
@@ -112,6 +114,8 @@
     <None Include="ActionTests\Window\Minimize.wtest" />
     <None Include="ActionTests\Window\Maximize.wtest" />
     <None Include="ActionTests\Window\Resize.wtest" />
+    <EmbeddedResource Include="Helpers\CSV_Database_of_First_Names.csv" />
+    <EmbeddedResource Include="Helpers\CSV_Database_of_Last_Names.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

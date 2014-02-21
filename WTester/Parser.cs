@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using stillbreathing.co.uk.WTester.Actions;
-using WatiN.Core;
 
 namespace stillbreathing.co.uk.WTester
 {
@@ -14,11 +13,6 @@ namespace stillbreathing.co.uk.WTester
     /// </summary>
     public class Parser
     {
-        public Parser()
-        {
-            
-        }
-        
         /// <summary>
         /// Get the function name from an action
         /// </summary>
