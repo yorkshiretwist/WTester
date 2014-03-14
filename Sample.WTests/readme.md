@@ -4,16 +4,16 @@ ReadMe for Sample WTest Script
 There are a number of sample WTest scripts to demonstrate the features available 
 in WTester.
 
-1) Sample 1
+1) Search-for-chocolate.wtest
 
 Loads the Google.com homepage and searches for 'chocolate'. After a pause of 10 seconds 
 the window is closed.
 
-2) Sample 2
+2) Screenshot-the-Wikipedia-chocolate-page.wtest
 
 Loads Wikipedia page for 'chocolate' and saves a screenshot in the same folder as the client application, with the filename chocolate.jpg. After a pause of 10 seconds the window is closed.
 
-3) Sample 3
+3) Screenshot-font-sizing.wtest
 
 Loads Wikipedia page for 'short' and saves a screenshot in the same folder as the client application, with the filename short-normal-text.jpg.
 

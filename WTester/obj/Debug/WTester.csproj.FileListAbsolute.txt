@@ -59,3 +59,4 @@ D:\projects\WTester\WTester\bin\Debug\WebDriver.pdb
 D:\projects\WTester\WTester\bin\Debug\WebDriver.xml
 D:\projects\WTester\WTester\bin\Debug\WebDriver.Support.pdb
 D:\projects\WTester\WTester\bin\Debug\WebDriver.Support.xml
+D:\projects\WTester\WTester\obj\Debug\WTester.csprojResolveAssemblyReference.cache

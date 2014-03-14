@@ -46,6 +46,9 @@
     <Reference Include="ThoughtWorks.Selenium.Core">
       <HintPath>Selenium\ThoughtWorks.Selenium.Core.dll</HintPath>
     </Reference>
+    <Reference Include="WatiN.Core">
+      <HintPath>Resources\WatiN.Core.dll</HintPath>
+    </Reference>
     <Reference Include="WebDriver">
       <HintPath>Selenium\WebDriver.dll</HintPath>
     </Reference>
@@ -67,6 +70,7 @@
     <Compile Include="Actions\Style.cs" />
     <Compile Include="Actions\Window.cs" />
     <Compile Include="BrowserTypes.cs" />
+    <Compile Include="Extensions\WebDriverExtensions.cs" />
     <Compile Include="Helpers\ChromeScreenshot.cs" />
     <Compile Include="Helpers\Randomiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

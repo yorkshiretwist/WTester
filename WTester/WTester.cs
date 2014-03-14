@@ -186,6 +186,7 @@ namespace stillbreathing.co.uk.WTester
             RegisterAction("html", "stillbreathing.co.uk.WTester.Actions.Content.InnerHtml");
             RegisterAction("outerhtml", "stillbreathing.co.uk.WTester.Actions.Content.OuterHtml");
             RegisterAction("text", "stillbreathing.co.uk.WTester.Actions.Content.Text");
+            RegisterAction("waitfor", "stillbreathing.co.uk.WTester.Actions.Content.WaitFor");
 
             // elements
             RegisterAction("find", "stillbreathing.co.uk.WTester.Actions.Elements.Find");

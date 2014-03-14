@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using stillbreathing.co.uk.WTester.Extensions;
 using OpenQA.Selenium;
 
 namespace stillbreathing.co.uk.WTester.Actions.Elements
@@ -9,6 +10,8 @@ namespace stillbreathing.co.uk.WTester.Actions.Elements
     /// </summary>
     public class Find : BaseAction
     {
+        public int Timeout;
+
         /// <summary>
         /// Find a single element
         /// </summary>
@@ -16,6 +19,16 @@ namespace stillbreathing.co.uk.WTester.Actions.Elements
         public Find(string selector)
         {
             Selector = selector.Trim().Trim('\'');
+        }
+
+        /// <summary>
+        /// Find a single element, waiting for the specified period for the element to appear
+        /// </summary>
+        /// <returns></returns>
+        public Find(string selector, int timeout)
+        {
+            Selector = selector.Trim().Trim('\'');
+            Timeout = timeout;
         }
 
         public override void PreAction()
@@ -30,7 +43,14 @@ namespace stillbreathing.co.uk.WTester.Actions.Elements
         {
             try
             {
-                Test.CurrentElements = Test.Browser.FindElements(By.CssSelector(Selector));
+                if (Timeout == 0)
+                {
+                    Test.CurrentElements = Test.Browser.FindElements(By.CssSelector(Selector));
+                }
+                else
+                {
+                    Test.CurrentElements = Test.Browser.FindElements(By.CssSelector(Selector), Timeout);
+                }
                 if (Test.CurrentElements.Any())
                 {
                     Success = true;

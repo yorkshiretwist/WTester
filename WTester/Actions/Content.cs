@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using stillbreathing.co.uk.WTester.Extensions;
 using OpenQA.Selenium;
 
 namespace stillbreathing.co.uk.WTester.Actions.Content
@@ -110,8 +111,14 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
     /// </summary>
     public class Highlight : BaseAction
     {
+        public Highlight(string selector)
+        {
+            Selector = selector;
+        }
+
         public override void PreAction()
         {
+            FindElements(Selector);
             PreActionMessage = "Highlighting the current element(s)";
         }
 
@@ -250,6 +257,62 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
                 else
                 {
                     PostActionMessage = "There are no elements currently selected";
+                    Success = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                PostActionMessage = ex.Message;
+                Success = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Waits until the given element is present on the page
+    /// </summary>
+    public class WaitFor : BaseAction
+    {
+        /// <summary>
+        /// The timeout period in seconds, default: 30
+        /// </summary>
+        public int Timeout = 30;
+
+        /// <summary>
+        /// Waits until the given element is present on the page
+        /// </summary>
+        /// <returns></returns>
+        public WaitFor(string selector)
+        {
+            Selector = selector;
+        }
+        public WaitFor(string selector, int timeout)
+        {
+            Selector = selector;
+            Timeout = timeout;
+        }
+
+        public override void PreAction()
+        {
+            PreActionMessage = String.Format("Waiting until selector '{0}' finds a valid element, timeout: {1}", Selector, Timeout);
+        }
+
+        /// <summary>
+        /// Executes the action
+        /// </summary>
+        public override void Execute()
+        {
+            try
+            {
+                Test.CurrentElements = Test.Browser.FindElements(By.CssSelector(Selector), Timeout);
+                if (Test.CurrentElements.Any())
+                {
+                    PostActionMessage = String.Format("Found elements using selector '{0}'", Selector);
+                    Success = true;
+                }
+                else
+                {
+                    PostActionMessage = String.Format("Did not find elements using selector '{0}', even after {1} second timeout", Selector, Timeout);
                     Success = false;
                 }
             }

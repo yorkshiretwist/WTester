@@ -1,6 +1,6 @@
 ﻿$.browser("firefox")
 $.load("www.google.com")
 $.find("[name=q]").typetext("chocolate")
-$.keypress(enter)
+$.keypress("{ENTER}")
 $.pause(10)
 $.close()
