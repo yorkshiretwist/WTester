@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace stillbreathing.co.uk.WTester.Actions.ActionProcessing
@@ -35,6 +36,26 @@ namespace stillbreathing.co.uk.WTester.Actions.ActionProcessing
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                    {
+                        Name = "interval",
+                        Type = typeof(int),
+                        Description = "The number of seconds to pause test execution",
+                        IsOptional = false,
+                        DefaultValue = null
+                    });
+                return parameters;
             }
         }
     }

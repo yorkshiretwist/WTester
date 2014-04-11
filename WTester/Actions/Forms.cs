@@ -53,6 +53,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -98,6 +118,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
             }
         }
     }
@@ -197,6 +237,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -292,6 +352,34 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = true,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "value",
+                    Type = typeof(object),
+                    Description = "The value of the option to select",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
             }
         }
     }
@@ -391,6 +479,34 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = true,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "text",
+                    Type = typeof(string),
+                    Description = "The text of the option to select",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -488,6 +604,34 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = true,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "index",
+                    Type = typeof(int),
+                    Description = "The index of the option to select",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -578,6 +722,34 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = true,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "text",
+                    Type = typeof(string),
+                    Description = "The text to type",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
             }
         }
     }
@@ -695,6 +867,42 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = true,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "minlength",
+                    Type = typeof(int),
+                    Description = "The minimum length of the random string",
+                    IsOptional = true,
+                    DefaultValue = 2
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "maxlength",
+                    Type = typeof(int),
+                    Description = "The maximum length of the random string",
+                    IsOptional = false,
+                    DefaultValue = 10
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -785,6 +993,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = true,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -873,6 +1101,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Forms
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = true,
+                    DefaultValue = null
+                });
+                return parameters;
             }
         }
     }

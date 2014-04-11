@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FastColoredTextBox">
+      <HintPath>..\FastColoredTextBox\Binary\FastColoredTextBox.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -104,6 +107,7 @@
     </Content>
     <Content Include="resources\control_pause_blue.png" />
     <Content Include="resources\control_play_blue.png" />
+    <Content Include="resources\disk.png" />
     <Content Include="resources\folder_go.png" />
     <Content Include="test.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

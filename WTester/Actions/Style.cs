@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using OpenQA.Selenium;
+using System.Collections.Generic;
 
 namespace stillbreathing.co.uk.WTester.Actions.Style
 {
@@ -38,6 +39,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Style
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "styles",
+                    Type = typeof(string),
+                    Description = "The CSS styles to apply",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -62,6 +83,18 @@ namespace stillbreathing.co.uk.WTester.Actions.Style
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
             }
         }
     }
@@ -90,6 +123,18 @@ namespace stillbreathing.co.uk.WTester.Actions.Style
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -114,6 +159,18 @@ namespace stillbreathing.co.uk.WTester.Actions.Style
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
             }
         }
     }

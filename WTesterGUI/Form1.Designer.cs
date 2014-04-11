@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WTesterForm));
             this.btnRun = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabScript = new System.Windows.Forms.TabPage();
-            this.tbSource = new System.Windows.Forms.TextBox();
+            this.editor = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabResults = new System.Windows.Forms.TabPage();
             this.tbOutput = new System.Windows.Forms.RichTextBox();
             this.tabHelp = new System.Windows.Forms.TabPage();
@@ -42,8 +43,11 @@
             this.btnPause = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.pbProgress = new System.Windows.Forms.ProgressBar();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tabs.SuspendLayout();
             this.tabScript.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
             this.tabResults.SuspendLayout();
             this.tabHelp.SuspendLayout();
             this.SuspendLayout();
@@ -82,7 +86,7 @@
             // 
             // tabScript
             // 
-            this.tabScript.Controls.Add(this.tbSource);
+            this.tabScript.Controls.Add(this.editor);
             this.tabScript.Location = new System.Drawing.Point(4, 22);
             this.tabScript.Name = "tabScript";
             this.tabScript.Padding = new System.Windows.Forms.Padding(3);
@@ -91,19 +95,39 @@
             this.tabScript.Text = "Test Script";
             this.tabScript.UseVisualStyleBackColor = true;
             // 
-            // tbSource
+            // editor
             // 
-            this.tbSource.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.editor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSource.Font = new System.Drawing.Font("Courier New", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbSource.Location = new System.Drawing.Point(3, 3);
-            this.tbSource.Multiline = true;
-            this.tbSource.Name = "tbSource";
-            this.tbSource.Size = new System.Drawing.Size(607, 429);
-            this.tbSource.TabIndex = 4;
-            this.tbSource.Text = "$.browser(\"firefox\")\r\n$.load(\"www.google.com\")";
-            this.tbSource.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbSource_KeyDown);
+            this.editor.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.editor.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            this.editor.BackBrush = null;
+            this.editor.CharHeight = 14;
+            this.editor.CharWidth = 8;
+            this.editor.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.editor.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.editor.IsReplaceMode = false;
+            this.editor.Location = new System.Drawing.Point(3, 3);
+            this.editor.Name = "editor";
+            this.editor.Paddings = new System.Windows.Forms.Padding(0);
+            this.editor.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.editor.Size = new System.Drawing.Size(607, 429);
+            this.editor.TabIndex = 0;
+            this.editor.Zoom = 100;
+            this.editor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.editor_MouseDown);
+            this.editor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.editor_MouseMove);
+            this.editor.TextChanged += editor_TextChanged;
             // 
             // tabResults
             // 
@@ -124,7 +148,7 @@
             this.tbOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbOutput.Location = new System.Drawing.Point(3, 3);
             this.tbOutput.Name = "tbOutput";
-            this.tbOutput.Size = new System.Drawing.Size(607, 427);
+            this.tbOutput.Size = new System.Drawing.Size(607, 429);
             this.tbOutput.TabIndex = 5;
             this.tbOutput.Text = "";
             // 
@@ -199,11 +223,25 @@
             this.pbProgress.Size = new System.Drawing.Size(621, 23);
             this.pbProgress.TabIndex = 9;
             // 
+            // btnSave
+            // 
+            this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
+            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSave.Location = new System.Drawing.Point(102, 12);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(82, 23);
+            this.btnSave.TabIndex = 10;
+            this.btnSave.Text = "Save test";
+            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // WTesterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(645, 542);
+            this.ClientSize = new System.Drawing.Size(653, 553);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.pbProgress);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnPause);
@@ -215,7 +253,7 @@
             this.Text = "WTester";
             this.tabs.ResumeLayout(false);
             this.tabScript.ResumeLayout(false);
-            this.tabScript.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.editor)).EndInit();
             this.tabResults.ResumeLayout(false);
             this.tabHelp.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -228,7 +266,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TabControl tabs;
         private System.Windows.Forms.TabPage tabScript;
-        private System.Windows.Forms.TextBox tbSource;
         private System.Windows.Forms.TabPage tabResults;
         private System.Windows.Forms.RichTextBox tbOutput;
         private System.Windows.Forms.TabPage tabHelp;
@@ -237,6 +274,9 @@
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ProgressBar pbProgress;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private FastColoredTextBoxNS.FastColoredTextBox editor;
     }
 }
 

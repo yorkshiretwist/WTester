@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenQA.Selenium;
+using System.Collections.Generic;
 
 namespace stillbreathing.co.uk.WTester.Actions.JavaScript
 {
@@ -34,6 +35,26 @@ namespace stillbreathing.co.uk.WTester.Actions.JavaScript
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "script",
+                    Type = typeof(string),
+                    Description = "The JavaScript to execute",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
             }
         }
     }

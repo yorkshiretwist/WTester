@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionInvoker.cs" />
+    <Compile Include="ActionParameter.cs" />
     <Compile Include="Actions\Cookies.cs" />
     <Compile Include="Actions\JavaScript.cs" />
     <Compile Include="Actions\Navigation.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Actions\Content.cs" />
     <Compile Include="Actions\Style.cs" />
     <Compile Include="Actions\Window.cs" />
+    <Compile Include="ActionType.cs" />
     <Compile Include="BrowserTypes.cs" />
     <Compile Include="Extensions\WebDriverExtensions.cs" />
     <Compile Include="Helpers\ChromeScreenshot.cs" />

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using OpenQA.Selenium;
 using ScreenOrientation = OpenQA.Selenium.ScreenOrientation;
+using System.Collections.Generic;
 
 namespace stillbreathing.co.uk.WTester.Actions.Window
 {
@@ -42,8 +43,39 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "width",
+                    Type = typeof(int),
+                    Description = "The new width of the window",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "height",
+                    Type = typeof(int),
+                    Description = "The new height of the window",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
+    /// <summary>
+    /// Rotates the window, switching between landscape and portrait
+    /// </summary>
     public class Rotate : BaseAction
     {
         public override void PreAction()
@@ -68,8 +100,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
+    /// <summary>
+    /// Maximises the browser window
+    /// </summary>
     public class Maximise : BaseAction
     {
         public override void PreAction()
@@ -91,8 +138,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
+    /// <summary>
+    /// Minimises the browser window
+    /// </summary>
     public class Minimise : BaseAction
     {
         public override void PreAction()
@@ -113,8 +175,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
+    /// <summary>
+    /// Resets the window size
+    /// </summary>
     public class Reset : BaseAction
     {
         public override void PreAction()
@@ -135,23 +212,38 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
+    /// <summary>
+    /// Opens a new tab
+    /// </summary>
     public class NewTab : BaseAction
     {
-        private string URL;
+        private string URI;
 
         /// <summary>
         /// Opens a new tab with a specified URL
         /// </summary>
-        public NewTab(string url)
+        public NewTab(string uri)
         {
-            URL = url;
+            URI = uri;
         }
 
         public override void PreAction()
         {
-            PreActionMessage = String.Format("Opening a new tab for {0}", URL);
+            PreActionMessage = String.Format("Opening a new tab for {0}", URI);
         }
 
         public override void Execute()
@@ -164,10 +256,10 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 // select the address bar text
                 SendKeys.SendWait("%{d}");
                 // enter the new URL
-                SendKeys.SendWait(String.Format("{{0}}", URL));
+                SendKeys.SendWait(String.Format("{{0}}", URI));
                 // press enter
                 SendKeys.SendWait("{ENTER}");
-                PostActionMessage = String.Format("Opened a new tab for {0}", URL);
+                PostActionMessage = String.Format("Opened a new tab for {0}", URI);
             }
             catch (Exception ex)
             {
@@ -175,8 +267,31 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "uri",
+                    Type = typeof(string),
+                    Description = "The URI to open in the new tab",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
+    /// <summary>
+    /// Goes to the tab with the given index
+    /// </summary>
     public class GoToTab : BaseAction
     {
         private int TabNumber;
@@ -207,8 +322,31 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "tabNumber",
+                    Type = typeof(int),
+                    Description = "The tab number to go to",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
+    /// <summary>
+    /// Closes the current tab
+    /// </summary>
     public class CloseTab : BaseAction
     {
         public override void PreAction()
@@ -230,8 +368,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
+    /// <summary>
+    /// Goes to the next tab
+    /// </summary>
     public class NextTab : BaseAction
     {
         public override void PreAction()
@@ -253,8 +406,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
+    /// <summary>
+    /// Goes to the previous tab
+    /// </summary>
     public class PreviousTab : BaseAction
     {
         public override void PreAction()
@@ -276,8 +444,23 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
+    /// <summary>
+    /// Sends the given keys to the browser
+    /// </summary>
     public class KeyPress : BaseAction
     {
         public string KeysText;
@@ -341,6 +524,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Window
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "keysText",
+                    Type = typeof(string),
+                    Description = "The keys to send to the tab",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
             }
         }
     }

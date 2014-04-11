@@ -21,9 +21,25 @@ namespace stillbreathing.co.uk.WTester
         #region Public properties
 
         /// <summary>
+        /// The list of possible action types that can be called
+        /// </summary>
+        public Dictionary<string, ActionType> ActionTypes = new Dictionary<string, ActionType>();
+
+        /// <summary>
         /// The List of Actions that will be performed in this test
         /// </summary>
         public List<BaseAction> Actions = new List<BaseAction>();
+
+        /// <summary>
+        /// Returns the list of functions for registered actions
+        /// </summary>
+        public List<string> FunctionNames
+        {
+            get
+            {
+                return ActionTypes.Select(a => a.Key).ToList();
+            }
+        }
 
         /// <summary>
         /// The currently selected elements
@@ -68,11 +84,6 @@ namespace stillbreathing.co.uk.WTester
         #endregion
 
         #region Fields
-
-        /// <summary>
-        /// The list of possible action types that can be called
-        /// </summary>
-        private Dictionary<string, string> ActionTypes = new Dictionary<string, string>();
 
         /// <summary>
         /// The lines in the current WTest document
@@ -177,69 +188,200 @@ namespace stillbreathing.co.uk.WTester
         private void RegisterStandardActions()
         {
             // action processing
-            RegisterAction("pause", "stillbreathing.co.uk.WTester.Actions.ActionProcessing.Pause");
+            RegisterAction("pause", "stillbreathing.co.uk.WTester.Actions.ActionProcessing.Pause",
+                "Pause",
+                "Pauses test execution for a number of seconds",
+                WTester.Actions.ActionProcessing.Pause.Parameters
+                );
 
             // content
-            RegisterAction("search", "stillbreathing.co.uk.WTester.Actions.Content.Search");
-            RegisterAction("title", "stillbreathing.co.uk.WTester.Actions.Content.Title");
-            RegisterAction("highlight", "stillbreathing.co.uk.WTester.Actions.Content.Highlight");
-            RegisterAction("html", "stillbreathing.co.uk.WTester.Actions.Content.InnerHtml");
-            RegisterAction("outerhtml", "stillbreathing.co.uk.WTester.Actions.Content.OuterHtml");
-            RegisterAction("text", "stillbreathing.co.uk.WTester.Actions.Content.Text");
-            RegisterAction("waitfor", "stillbreathing.co.uk.WTester.Actions.Content.WaitFor");
+            RegisterAction("search", "stillbreathing.co.uk.WTester.Actions.Content.Search", 
+                "Search",
+                "Searches for text on the current page",
+                WTester.Actions.Content.Search.Parameters);
+            RegisterAction("title", "stillbreathing.co.uk.WTester.Actions.Content.Title",
+                "Title",
+                "Returns the title of the current page",
+                WTester.Actions.Content.Title.Parameters);
+            RegisterAction("highlight", "stillbreathing.co.uk.WTester.Actions.Content.Highlight",
+                "Highlight",
+                "Highlights the current element",
+                WTester.Actions.Content.Highlight.Parameters);
+            RegisterAction("html", "stillbreathing.co.uk.WTester.Actions.Content.InnerHtml",
+                "InnerHtml",
+                "Returns the inner HTML of the current element",
+                WTester.Actions.Content.InnerHtml.Parameters);
+            RegisterAction("outerhtml", "stillbreathing.co.uk.WTester.Actions.Content.OuterHtml",
+                "OuterHtml",
+                "Returns the outer HTML of the current element",
+                WTester.Actions.Content.OuterHtml.Parameters);
+            RegisterAction("text", "stillbreathing.co.uk.WTester.Actions.Content.Text",
+                "Text",
+                "Returns the text of the current element",
+                WTester.Actions.Content.Text.Parameters);
+            RegisterAction("waitfor", "stillbreathing.co.uk.WTester.Actions.Content.WaitFor",
+                "WaitFor",
+                "Waits until the given element is present on the page",
+                WTester.Actions.Content.WaitFor.Parameters);
 
             // elements
-            RegisterAction("find", "stillbreathing.co.uk.WTester.Actions.Elements.Find");
+            RegisterAction("find", "stillbreathing.co.uk.WTester.Actions.Elements.Find",
+                "Find",
+                "Finds elements on the current page",
+                WTester.Actions.Elements.Find.Parameters);
 
             // forms
-            RegisterAction("click", "stillbreathing.co.uk.WTester.Actions.Forms.Click");
-            RegisterAction("clicklast", "stillbreathing.co.uk.WTester.Actions.Forms.ClickLast");
-            RegisterAction("typetext", "stillbreathing.co.uk.WTester.Actions.Forms.TypeText");
-            RegisterAction("firstname", "stillbreathing.co.uk.WTester.Actions.Forms.FirstName");
-            RegisterAction("lastname", "stillbreathing.co.uk.WTester.Actions.Forms.LastName");
-            RegisterAction("selectvalue", "stillbreathing.co.uk.WTester.Actions.Forms.SelectValue");
-            RegisterAction("selecttext", "stillbreathing.co.uk.WTester.Actions.Forms.SelectText");
-            RegisterAction("selectindex", "stillbreathing.co.uk.WTester.Actions.Forms.SelectIndex");
-            RegisterAction("selectrandom", "stillbreathing.co.uk.WTester.Actions.Forms.SelectRandom");
+            RegisterAction("click", "stillbreathing.co.uk.WTester.Actions.Forms.Click",
+                "Click",
+                "Activates a click event on the current selected element",
+                WTester.Actions.Forms.Click.Parameters);
+            RegisterAction("clicklast", "stillbreathing.co.uk.WTester.Actions.Forms.ClickLast",
+                "ClickLast",
+                "Activates a click event on the last selected element",
+                WTester.Actions.Forms.ClickLast.Parameters);
+            RegisterAction("typetext", "stillbreathing.co.uk.WTester.Actions.Forms.TypeText",
+                "TypeText",
+                "Types text into the current element",
+                WTester.Actions.Forms.TypeText.Parameters);
+            RegisterAction("firstname", "stillbreathing.co.uk.WTester.Actions.Forms.FirstName",
+                "FirstName",
+                "Types a random first name into the current element",
+                WTester.Actions.Forms.FirstName.Parameters);
+            RegisterAction("lastname", "stillbreathing.co.uk.WTester.Actions.Forms.LastName",
+                "LastName",
+                "Types a random last name into the current element",
+                WTester.Actions.Forms.LastName.Parameters);
+            RegisterAction("selectvalue", "stillbreathing.co.uk.WTester.Actions.Forms.SelectValue",
+                "SelectValue",
+                "Selects an option by value in the current select element",
+                WTester.Actions.Forms.SelectValue.Parameters);
+            RegisterAction("selecttext", "stillbreathing.co.uk.WTester.Actions.Forms.SelectText",
+                "SelectText",
+                "Selects an option by text in the current select element",
+                WTester.Actions.Forms.SelectText.Parameters);
+            RegisterAction("selectindex", "stillbreathing.co.uk.WTester.Actions.Forms.SelectIndex",
+                "SelectIndex",
+                "Selects the option at the given index in the current select element",
+                WTester.Actions.Forms.SelectIndex.Parameters);
+            RegisterAction("selectrandom", "stillbreathing.co.uk.WTester.Actions.Forms.SelectRandom",
+                "SelectRandom",
+                "Selects a random option in the current select element",
+                WTester.Actions.Forms.SelectRandom.Parameters);
 
             // javascript
-            RegisterAction("eval", "stillbreathing.co.uk.WTester.Actions.JavaScript.Eval");
+            RegisterAction("eval", "stillbreathing.co.uk.WTester.Actions.JavaScript.Eval",
+                "Eval",
+                "Executes the given JavaScript",
+                WTester.Actions.JavaScript.Eval.Parameters);
 
             // navigation
-            RegisterAction("load", "stillbreathing.co.uk.WTester.Actions.Navigation.Load");
-            RegisterAction("open", "stillbreathing.co.uk.WTester.Actions.Navigation.Load");
-            RegisterAction("close", "stillbreathing.co.uk.WTester.Actions.Navigation.Close");
-            RegisterAction("refresh", "stillbreathing.co.uk.WTester.Actions.Navigation.Refresh");
-            RegisterAction("back", "stillbreathing.co.uk.WTester.Actions.Navigation.Back");
-            RegisterAction("forward", "stillbreathing.co.uk.WTester.Actions.Navigation.Forward");
+            RegisterAction("load", "stillbreathing.co.uk.WTester.Actions.Navigation.Load",
+                "Load",
+                "Loads the page at the given URI",
+                WTester.Actions.Navigation.Load.Parameters);
+            RegisterAction("open", "stillbreathing.co.uk.WTester.Actions.Navigation.Load",
+                "Open",
+                "Loads the page at the given URI",
+                WTester.Actions.Navigation.Load.Parameters);
+            RegisterAction("close", "stillbreathing.co.uk.WTester.Actions.Navigation.Close",
+                "Close",
+                "Closes the current browser instance",
+                WTester.Actions.Navigation.Close.Parameters);
+            RegisterAction("refresh", "stillbreathing.co.uk.WTester.Actions.Navigation.Refresh",
+                "Refresh",
+                "Refreshes the current page",
+                WTester.Actions.Navigation.Refresh.Parameters);
+            RegisterAction("back", "stillbreathing.co.uk.WTester.Actions.Navigation.Back",
+                "Back",
+                "Goes the the previous page",
+                WTester.Actions.Navigation.Back.Parameters);
+            RegisterAction("forward", "stillbreathing.co.uk.WTester.Actions.Navigation.Forward",
+                "Forward",
+                "Goes the the next page (after previously going back)",
+                WTester.Actions.Navigation.Forward.Parameters);
 
             // output
-            RegisterAction("screenshot", "stillbreathing.co.uk.WTester.Actions.Output.Screenshot");
-            RegisterAction("save", "stillbreathing.co.uk.WTester.Actions.Output.Save");
+            RegisterAction("screenshot", "stillbreathing.co.uk.WTester.Actions.Output.Screenshot",
+                "Screenshot",
+                "Saves a screenshot of the page to a file",
+                WTester.Actions.Output.Screenshot.Parameters);
+            RegisterAction("save", "stillbreathing.co.uk.WTester.Actions.Output.Save",
+                "Save",
+                "Saves the HTML of the page to a file",
+                WTester.Actions.Output.Save.Parameters);
 
             // style
-            RegisterAction("css", "stillbreathing.co.uk.WTester.Actions.Style.CSS");
-            RegisterAction("zoomin", "stillbreathing.co.uk.WTester.Actions.Style.ZoomIn");
-            RegisterAction("zoomout", "stillbreathing.co.uk.WTester.Actions.Style.ZoomOut");
-            RegisterAction("resetzoom", "stillbreathing.co.uk.WTester.Actions.Style.ResetZoom");
+            RegisterAction("css", "stillbreathing.co.uk.WTester.Actions.Style.CSS",
+                "CSS",
+                "Applies the given styles to the current page",
+                WTester.Actions.Style.CSS.Parameters);
+            RegisterAction("zoomin", "stillbreathing.co.uk.WTester.Actions.Style.ZoomIn",
+                "ZoomIn",
+                "Zooms the page in",
+                WTester.Actions.Style.ZoomIn.Parameters);
+            RegisterAction("zoomout", "stillbreathing.co.uk.WTester.Actions.Style.ZoomOut",
+                "ZoomOut",
+                "Zooms the page out",
+                WTester.Actions.Style.ZoomOut.Parameters);
+            RegisterAction("resetzoom", "stillbreathing.co.uk.WTester.Actions.Style.ResetZoom",
+                "ResetZoom",
+                "Resets the zoom",
+                WTester.Actions.Style.ResetZoom.Parameters);
 
             // window
-            RegisterAction("resize", "stillbreathing.co.uk.WTester.Actions.Window.Resize");
-            RegisterAction("rotate", "stillbreathing.co.uk.WTester.Actions.Window.Rotate");
-            RegisterAction("maximise", "stillbreathing.co.uk.WTester.Actions.Window.Maximise");
-            RegisterAction("minimise", "stillbreathing.co.uk.WTester.Actions.Window.Minimise");
-            RegisterAction("reset", "stillbreathing.co.uk.WTester.Actions.Window.Reset");
-            RegisterAction("newtab", "stillbreathing.co.uk.WTester.Actions.Window.NewTab");
-            RegisterAction("gototab", "stillbreathing.co.uk.WTester.Actions.Window.GoToTab");
-            RegisterAction("closetab", "stillbreathing.co.uk.WTester.Actions.Window.CloseTab");
-            RegisterAction("nexttab", "stillbreathing.co.uk.WTester.Actions.Window.NextTab");
-            RegisterAction("previoustab", "stillbreathing.co.uk.WTester.Actions.Window.PreviousTab");
-            RegisterAction("keypress", "stillbreathing.co.uk.WTester.Actions.Window.KeyPress");
+            RegisterAction("resize", "stillbreathing.co.uk.WTester.Actions.Window.Resize",
+                "Resize",
+                "Resizes the browser window",
+                WTester.Actions.Window.Resize.Parameters);
+            RegisterAction("rotate", "stillbreathing.co.uk.WTester.Actions.Window.Rotate",
+                "Rotate",
+                "Rotates the window, switching between landscape and portrait",
+                WTester.Actions.Window.Rotate.Parameters);
+            RegisterAction("maximise", "stillbreathing.co.uk.WTester.Actions.Window.Maximise",
+                "Maximise",
+                "Maximises the browser window",
+                WTester.Actions.Window.Maximise.Parameters);
+            //RegisterAction("minimise", "stillbreathing.co.uk.WTester.Actions.Window.Minimise",
+            //    "Minimise",
+            //    "Minimises the browser window");
+            //RegisterAction("reset", "stillbreathing.co.uk.WTester.Actions.Window.Reset",
+            //    "Reset",
+            //    "Resets the window size");
+            RegisterAction("newtab", "stillbreathing.co.uk.WTester.Actions.Window.NewTab",
+                "NewTab",
+                "Opens a new tab",
+                WTester.Actions.Window.NewTab.Parameters);
+            RegisterAction("gototab", "stillbreathing.co.uk.WTester.Actions.Window.GoToTab",
+                "GoToTab",
+                "Goes to the tab with the given index",
+                WTester.Actions.Window.GoToTab.Parameters);
+            RegisterAction("closetab", "stillbreathing.co.uk.WTester.Actions.Window.CloseTab",
+                "CloseTab",
+                "Closes the current tab",
+                WTester.Actions.Window.CloseTab.Parameters);
+            RegisterAction("nexttab", "stillbreathing.co.uk.WTester.Actions.Window.NextTab",
+                "NextTab",
+                "Goes to the next tab",
+                WTester.Actions.Window.NextTab.Parameters);
+            RegisterAction("previoustab", "stillbreathing.co.uk.WTester.Actions.Window.PreviousTab",
+                "PreviousTab",
+                "Goes to the previous tab",
+                WTester.Actions.Window.PreviousTab.Parameters);
+            RegisterAction("keypress", "stillbreathing.co.uk.WTester.Actions.Window.KeyPress",
+                "KeyPress",
+                "Sends the given keys to the browser",
+                WTester.Actions.Window.KeyPress.Parameters);
 
             // cookies
-            RegisterAction("getcookie", "stillbreathing.co.uk.WTester.Actions.Cookies.GetCookie");
-            RegisterAction("setcookie", "stillbreathing.co.uk.WTester.Actions.Cookies.SetCookie");
-            RegisterAction("deletecookie", "stillbreathing.co.uk.WTester.Actions.Cookies.DeleteCookie");
+            RegisterAction("getcookie", "stillbreathing.co.uk.WTester.Actions.Cookies.GetCookie",
+                "GetCookie",
+                "Gets the value of a cookie");
+            RegisterAction("setcookie", "stillbreathing.co.uk.WTester.Actions.Cookies.SetCookie",
+                "SetCookie",
+                "Sets the value of a cookie");
+            RegisterAction("deletecookie", "stillbreathing.co.uk.WTester.Actions.Cookies.DeleteCookie",
+                "DeleteCookie",
+                "Deletes a cookie");
         }
 
         /// <summary>
@@ -247,10 +389,25 @@ namespace stillbreathing.co.uk.WTester
         /// </summary>
         /// <param name="functionName">The name of the function that will call this action</param>
         /// <param name="typeName">The type name of the action to be called</param>
-        public void RegisterAction(string functionName, string typeName)
+        public void RegisterAction(string functionName, string typeName, string name = null, string description = null, List<ActionParameter> parameters = null)
         {
-            if (!ActionTypes.ContainsKey(functionName)) 
-                ActionTypes.Add(functionName, typeName);
+            if (!ActionTypes.ContainsKey(functionName))
+            {
+                ActionType actionType = new ActionType(functionName, typeName);
+                if (description != null)
+                {
+                    actionType.Name = name;
+                }
+                if (description != null)
+                {
+                    actionType.Description = description;
+                }
+                if (parameters != null)
+                {
+                    actionType.Parameters = parameters;
+                }
+                ActionTypes.Add(functionName, actionType);
+            }
         }
 
         #endregion
@@ -271,6 +428,16 @@ namespace stillbreathing.co.uk.WTester
 
             // create the new reporter
             _progressReporter = new SendOrPostCallback(ProgressReporter);
+
+            // report the loading of this browser
+            var resultParameters = new List<object>
+                    {
+                        "test",
+                        new List<object>(),
+                        true,
+                        "Starting test, please wait"
+                    };
+            actionResultDelegate.DynamicInvoke(resultParameters.ToArray());
 
             // create the list of browsers
             var browsers = new List<BrowserType>();
@@ -351,7 +518,7 @@ namespace stillbreathing.co.uk.WTester
                 LoadBrowser(browserType);
 
                 // report the loading of this browser
-                var resultParameters = new List<object>
+                resultParameters = new List<object>
                     {
                         "browser",
                         new List<object> {browserType.ToString()},
@@ -441,7 +608,7 @@ namespace stillbreathing.co.uk.WTester
                             {
                                 // create the IAction object
                                 var invoker = new ActionInvoker();
-                                IAction actionObject = invoker.Invoke(this, ActionTypes[functionName], parameters);
+                                IAction actionObject = invoker.Invoke(this, ActionTypes[functionName].MethodName, parameters);
 
                                 // execute the PreAction() method of the IAction
                                 actionObject = invoker.PreAction(this, actionObject);

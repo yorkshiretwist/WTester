@@ -52,6 +52,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Cookies
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "cookieName",
+                    Type = typeof(string),
+                    Description = "The name of the cookie to get",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -102,6 +122,34 @@ namespace stillbreathing.co.uk.WTester.Actions.Cookies
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "cookieName",
+                    Type = typeof(string),
+                    Description = "The name of the cookie to set",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "value",
+                    Type = typeof(string),
+                    Description = "The value of the cookie",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -148,6 +196,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Cookies
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "cookieName",
+                    Type = typeof(string),
+                    Description = "The name of the cookie to delete",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
             }
         }
     }

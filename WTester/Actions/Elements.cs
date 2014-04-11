@@ -2,6 +2,7 @@
 using System.Linq;
 using stillbreathing.co.uk.WTester.Extensions;
 using OpenQA.Selenium;
+using System.Collections.Generic;
 
 namespace stillbreathing.co.uk.WTester.Actions.Elements
 {
@@ -66,6 +67,34 @@ namespace stillbreathing.co.uk.WTester.Actions.Elements
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "timeout",
+                    Type = typeof(int),
+                    Description = "The number of seconds to wait for the element to be visible until timing out",
+                    IsOptional = true,
+                    DefaultValue = 0
+                });
+                return parameters;
             }
         }
     }

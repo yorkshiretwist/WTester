@@ -1,10 +1,11 @@
 ﻿using System;
 using OpenQA.Selenium.Support.UI;
+using System.Collections.Generic;
 
 namespace stillbreathing.co.uk.WTester.Actions.Navigation
 {
     /// <summary>
-    /// Loads the page at a given Uri
+    /// Loads the page at the given URI
     /// </summary>
     public class Load : BaseAction
     {
@@ -63,10 +64,38 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "uri",
+                    Type = typeof(string),
+                    Description = "The URI to load",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "browserType",
+                    Type = typeof(string),
+                    Description = "The type of browser to use (either 'firefox', 'ie' or 'chrome')",
+                    IsOptional = true,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
-    /// Closes the current WatiN browser instance
+    /// Closes the current browser instance
     /// </summary>
     public class Close : BaseAction
     {
@@ -92,6 +121,18 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
             }
         }
     }
@@ -123,6 +164,18 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -151,10 +204,22 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
-    /// Goes the the next page
+    /// Goes the the next page (after previously going back)
     /// </summary>
     public class Forward : BaseAction
     {
@@ -178,6 +243,18 @@ namespace stillbreathing.co.uk.WTester.Actions.Navigation
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
             }
         }
     }

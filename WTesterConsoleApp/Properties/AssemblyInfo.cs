@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("WTester.ConsoleApp")]
-[assembly: AssemblyDescription("Write simple scripts to automate browsers using WatiN")]
+[assembly: AssemblyDescription("Write simple scripts to automate browsers using Selenium")]
 [assembly: AssemblyConfiguration("stillbreathing.co.uk")]
 [assembly: AssemblyCompany("WTester")]
 [assembly: AssemblyProduct("WTester")]

@@ -4,6 +4,7 @@ using System.IO;
 using OpenQA.Selenium;
 using System.Drawing.Imaging;
 using stillbreathing.co.uk.WTester.Helpers;
+using System.Collections.Generic;
 
 namespace stillbreathing.co.uk.WTester.Actions.Output
 {
@@ -39,6 +40,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Output
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "fileName",
+                    Type = typeof(string),
+                    Description = "The filename to save the HTML to",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
             }
         }
     }
@@ -131,6 +152,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Output
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "fileName",
+                    Type = typeof(string),
+                    Description = "The filename to save the screenshot to",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
             }
         }
     }

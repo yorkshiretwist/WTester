@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using stillbreathing.co.uk.WTester.Extensions;
 using OpenQA.Selenium;
+using System.Collections.Generic;
 
 namespace stillbreathing.co.uk.WTester.Actions.Content
 {
@@ -66,6 +67,34 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "query",
+                    Type = typeof(string),
+                    Description = "The text to search for",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "searchType",
+                    Type = typeof(string),
+                    Description = "The type of search, either 'standard' or 'regex'",
+                    IsOptional = true,
+                    DefaultValue = "standard"
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -102,6 +131,18 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
             }
         }
     }
@@ -153,6 +194,26 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -189,6 +250,18 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
             }
         }
     }
@@ -229,6 +302,18 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
                 Success = false;
             }
         }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
+            }
+        }
     }
 
     /// <summary>
@@ -264,6 +349,18 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                return parameters;
             }
         }
     }
@@ -320,6 +417,34 @@ namespace stillbreathing.co.uk.WTester.Actions.Content
             {
                 PostActionMessage = ex.Message;
                 Success = false;
+            }
+        }
+
+        /// <summary>
+        /// The parameters for this method
+        /// </summary>
+        internal static List<ActionParameter> Parameters
+        {
+            get
+            {
+                List<ActionParameter> parameters = new List<ActionParameter>();
+                parameters.Add(new ActionParameter
+                {
+                    Name = "selector",
+                    Type = typeof(string),
+                    Description = "The selector to search for",
+                    IsOptional = false,
+                    DefaultValue = null
+                });
+                parameters.Add(new ActionParameter
+                {
+                    Name = "timeout",
+                    Type = typeof(int),
+                    Description = "The number of seconds to wait until timing out",
+                    IsOptional = true,
+                    DefaultValue = 30
+                });
+                return parameters;
             }
         }
     }
